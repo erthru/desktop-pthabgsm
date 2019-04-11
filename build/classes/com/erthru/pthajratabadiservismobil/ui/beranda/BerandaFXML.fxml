@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="454.0" prefWidth="600.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erthru.pthajratabadiservismobil.ui.beranda.BerandaController">
+   <children>
+      <Label layoutX="35.0" layoutY="24.0" text="BERANDA" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+         <font>
+            <Font name="Arial Bold" size="22.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="26.0" layoutY="63.0" prefHeight="106.0" prefWidth="551.0" style="-fx-background-color: #27ae60;" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="68.0">
+         <children>
+            <Label layoutX="23.0" layoutY="29.0" text="Total Barang" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="lbTotalBarang" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+               <font>
+                  <Font name="Arial Bold" size="31.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="36.0" layoutY="73.0" prefHeight="106.0" prefWidth="551.0" style="-fx-background-color: #2980b9;" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="196.0">
+         <children>
+            <Label layoutX="23.0" layoutY="29.0" text="Total Pesanan" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTotalPesanan" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+               <font>
+                  <Font name="Arial Bold" size="31.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="46.0" layoutY="83.0" prefHeight="106.0" prefWidth="551.0" style="-fx-background-color: #d35400;" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="326.0">
+         <children>
+            <Label layoutX="23.0" layoutY="29.0" text="Pengguna Terdaftar" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbPenggunaAktif" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+               <font>
+                  <Font name="Arial Bold" size="31.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
