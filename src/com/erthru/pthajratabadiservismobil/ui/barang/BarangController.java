@@ -97,7 +97,6 @@ public class BarangController implements Initializable {
                     @Override
                     public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
                         int status = response.getStatusLine().getStatusCode();
-                        System.out.print(status);
                         if (status >= 200 && status < 300) {
                             HttpEntity entity = response.getEntity();
                             JSONObject json = null;
