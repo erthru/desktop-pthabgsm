@@ -15,14 +15,18 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -49,41 +53,124 @@ public class BarangController implements Initializable {
     @FXML
     private TableView tableBarang;
     
-    private int page = 1;
-    
+    @FXML
+    private Pagination paging;
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        setTableBarang();
+        setPaging();
         
-    }    
+    }   
     
-    private void setTableBarang(){
+    
+    private void setPaging(){
         
         class Work extends Task<Void>{
 
+            Loading loading = new Loading();
+            
             @Override
             protected Void call() throws Exception {
                 
-                TableColumn id = new TableColumn("ID");
-                id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                id.setMaxWidth(0);
-                id.setMinWidth(0);
-
-                TableColumn nama = new TableColumn("Nama");
-                nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-                nama.setMinWidth(300);
-
-                TableColumn harga = new TableColumn("Harga");
-                harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
-                harga.setMinWidth(100);
+                Platform.runLater(()->{
+                    loading.show();
+                });
                 
-
-                tableBarang.getColumns().clear();
-                tableBarang.getItems().clear();
-                tableBarang.getColumns().addAll(id,nama,harga);
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page=1");
                 
-                Loading loading = new Loading();
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+                
+                JSONObject response = httpclient.execute(get, responseHandler);
+                
+                Platform.runLater(()->{
+                    loading.dismiss();
+                });
+                
+                if(response != null){
+                    
+                    String total = response.getString("total");
+                    
+                    Platform.runLater(()->{
+                        paging.setPageCount(Integer.parseInt(total) / 10 + 1);
+                        paging.setCurrentPageIndex(0);
+                    });
+                    
+                    setTableBarang(1);
+                    
+                }else{
+                    MsgBox.error("Koneksi internet gagal.");
+                }
+                
+                return null;
+            }
+            
+        }
+        
+        Work work = new Work();
+        Thread t = new Thread(work);
+        t.start();
+        
+        paging.currentPageIndexProperty().addListener((obs,oldIndex,newIndex)->
+                setTableBarang(Integer.parseInt(newIndex.toString())+1)
+        );
+        
+    }
+    
+    private void setTableBarang(int page){
+        
+        class Work extends Task<Void>{
+
+            Loading loading = new Loading();
+            
+            @Override
+            protected Void call() throws Exception {
+                
+                Platform.runLater(()->{
+                
+                    TableColumn id = new TableColumn("ID");
+                    id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    id.setMaxWidth(0);
+                    id.setMinWidth(0);
+
+                    TableColumn nama = new TableColumn("Nama");
+                    nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
+                    nama.setMinWidth(300);
+
+                    TableColumn harga = new TableColumn("Harga");
+                    harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
+                    harga.setMinWidth(100);
+
+                    TableColumn kategori = new TableColumn("Kategori");
+                    kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
+                    kategori.setMinWidth(50);
+
+                    tableBarang.getColumns().clear();
+                    tableBarang.getItems().clear();
+                    tableBarang.getColumns().addAll(id,nama,harga,kategori);
+                
+                });
                 
                 Platform.runLater(()->{
                     loading.show();
@@ -130,14 +217,18 @@ public class BarangController implements Initializable {
                         String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
                         String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
                         String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
+                        String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
 
                         data.add(
-                                new Barang(idj,namaj,hargaj)
+                                new Barang(idj,namaj,hargaj,kategorij)
                         );
 
                     }
 
-                    tableBarang.setItems(data);
+                    Platform.runLater(()->{
+                        tableBarang.setItems(data);
+                    });
+                    
                 }else{
                     Platform.runLater(()->{
                         MsgBox.error("Koneksi internet gagal.");

@@ -43,7 +43,7 @@
                   <Font name="Arial Bold" size="31.0" />
                </font>
             </Label>
-            <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0">
                <image>
                   <Image url="@../../assets/img_order.png" />
                </image>

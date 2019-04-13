@@ -26,6 +26,11 @@ and open the template in the editor.
   -fx-alignment: CENTER_LEFT;
 }
 
+.table-row-cell:empty {
+-fx-background-color: white;
+-fx-border-color: white;
+} 
+
 .table-row-cell{
     -fx-cell-size: 58px;
 }

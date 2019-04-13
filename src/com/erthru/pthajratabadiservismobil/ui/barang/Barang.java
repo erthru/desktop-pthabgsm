@@ -14,11 +14,13 @@ public class Barang {
     private String id;
     private String nama;
     private String harga;
+    private String kategori;
 
-    public Barang(String id, String nama, String harga) {
+    public Barang(String id, String nama, String harga, String kategori) {
         this.id = id;
         this.nama = nama;
         this.harga = harga;
+        this.kategori = kategori;
     }
     
     public String getId() {
@@ -45,6 +47,12 @@ public class Barang {
         this.harga = harga;
     }
     
-    
+    public String getKategori() {
+        return kategori;
+    }
+
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
+    }
     
 }
