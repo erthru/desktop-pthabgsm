@@ -52,6 +52,7 @@ public class BerandaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadTotalBarang();
+        loadTotalPengguna();
     }    
     
     private void loadTotalBarang(){
@@ -112,6 +113,78 @@ public class BerandaController implements Initializable {
                             Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         lbTotalBarang.setText(totalBarang);
+                    });
+                }
+                
+                return null;
+            }
+            
+        }
+        
+        Work work = new Work();
+        Thread t = new Thread(work);
+        t.start();
+        
+    }
+    
+     private void loadTotalPengguna(){
+        
+        class Work extends Task<Void>{
+
+            Loading loading = new Loading();
+            
+            @Override
+            protected Void call() throws Exception {
+                
+                Platform.runLater(()->{
+                    loading.show();
+                });
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpGet get = new HttpGet(ApiEndPoint.USER_ALL+"&page=1");
+                
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        System.out.print(status);
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+                
+                JSONObject response = httpclient.execute(get, responseHandler);
+                
+                Platform.runLater(()->{
+                    loading.dismiss();
+                });
+                
+                if(response == null){
+                    Platform.runLater(()->{
+                        MsgBox.error("Koneksi internet gagal.");
+                    });
+                }else{
+                    Platform.runLater(()->{
+                        String pengguna = "";
+                        try {
+                            pengguna = response.getString("total");
+                        } catch (JSONException ex) {
+                            Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        lbPenggunaAktif.setText(pengguna);
                     });
                 }
                 

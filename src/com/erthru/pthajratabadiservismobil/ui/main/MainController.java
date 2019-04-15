@@ -110,7 +110,19 @@ public class MainController implements Initializable {
     @FXML
     private void btnPenggunaClicked(){
         
-        
+        try {
+            Node node = (Node)FXMLLoader.load(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/pengguna/PenggunaFXML.fxml"));
+            
+            AnchorPane.setBottomAnchor(node, Double.parseDouble("0"));
+            AnchorPane.setTopAnchor(node, Double.parseDouble("0"));
+            AnchorPane.setLeftAnchor(node, Double.parseDouble("0"));
+            AnchorPane.setRightAnchor(node, Double.parseDouble("0"));
+            
+            sidePane.getChildren().clear();
+            sidePane.getChildren().setAll(node);
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     

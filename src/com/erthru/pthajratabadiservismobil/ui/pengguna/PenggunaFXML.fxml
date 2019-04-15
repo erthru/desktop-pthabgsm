@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.erthru.pthajratabadiservismobil.ui.pengguna.PenggunaController">
+   <children>
+      <Label layoutX="55.0" layoutY="44.0" text="DATA PENGGUNA" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+         <font>
+            <Font name="Arial Bold" size="22.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableUser" layoutX="24.0" layoutY="100.0" prefHeight="281.0" prefWidth="559.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../../utils/TableStyle.css" AnchorPane.bottomAnchor="86.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="96.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TextField fx:id="txCari" layoutX="338.0" layoutY="59.0" onKeyReleased="#txCariOnTextChanged" prefHeight="27.0" prefWidth="245.0" promptText="Cari..." AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="56.0" />
+      <Pagination fx:id="paging" layoutY="174.0" pageCount="20" prefHeight="47.0" prefWidth="405.0" stylesheets="@../../utils/Pagination.css" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" />
+   </children>
+</AnchorPane>
