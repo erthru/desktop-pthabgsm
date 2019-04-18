@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="451.0" prefWidth="704.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.erthru.pthajratabadiservismobil.ui.pesanan.PesananController">
+<AnchorPane id="AnchorPane" prefHeight="451.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erthru.pthajratabadiservismobil.ui.pesanan.PesananController">
    <children>
       <Label layoutX="65.0" layoutY="54.0" text="PESANAN" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
          <font>
@@ -24,5 +23,6 @@
       </TableView>
       <TextField fx:id="txCari" layoutX="494.0" layoutY="55.0" onKeyReleased="#txCariOnTextChanged" prefHeight="27.0" prefWidth="225.0" promptText="Cari..." stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="56.0" />
       <Button fx:id="btnFilter" layoutX="347.0" layoutY="56.0" mnemonicParsing="false" onAction="#btnFilterClicked" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: #d35400;" text="FILTER" textFill="WHITE" AnchorPane.rightAnchor="267.0" AnchorPane.topAnchor="56.0" />
+      <Pagination fx:id="pagingFilter" layoutX="291.0" layoutY="398.0" pageCount="41" prefHeight="1.0" prefWidth="200.0" stylesheets="@../../utils/Pagination.css" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" />
    </children>
 </AnchorPane>
