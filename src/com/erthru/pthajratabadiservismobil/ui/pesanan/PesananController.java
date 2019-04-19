@@ -6,6 +6,7 @@
 package com.erthru.pthajratabadiservismobil.ui.pesanan;
 
 import com.erthru.pthajratabadiservismobil.ui.pengguna.PenggunaController;
+import com.erthru.pthajratabadiservismobil.ui.pesanandetail.PesananDetailController;
 import com.erthru.pthajratabadiservismobil.ui.pesananfilter.PesananFilterController;
 import com.erthru.pthajratabadiservismobil.utils.ApiEndPoint;
 import com.erthru.pthajratabadiservismobil.utils.Loading;
@@ -246,10 +247,9 @@ public class PesananController implements Initializable {
                 
                 Platform.runLater(()->{
                 
-                    TableColumn id = new TableColumn("ID");
+                    TableColumn id = new TableColumn("NO. Invoice");
                     id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                    id.setMaxWidth(0);
-                    id.setMinWidth(0);
+                    id.setMinWidth(80);
                     
                     TableColumn namaLengkap = new TableColumn("Nama Lengkap");
                     namaLengkap.setCellValueFactory(new PropertyValueFactory<>("namaLengkap"));
@@ -346,10 +346,9 @@ public class PesananController implements Initializable {
                                 
                 Platform.runLater(()->{
                 
-                    TableColumn id = new TableColumn("ID");
+                    TableColumn id = new TableColumn("NO. Invoice");
                     id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                    id.setMaxWidth(0);
-                    id.setMinWidth(0);
+                    id.setMinWidth(80);
                     
                     TableColumn namaLengkap = new TableColumn("Nama Lengkap");
                     namaLengkap.setCellValueFactory(new PropertyValueFactory<>("namaLengkap"));
@@ -451,10 +450,9 @@ public class PesananController implements Initializable {
                 
                 Platform.runLater(()->{
                 
-                    TableColumn id = new TableColumn("ID");
+                    TableColumn id = new TableColumn("NO. Invoice");
                     id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                    id.setMaxWidth(0);
-                    id.setMinWidth(0);
+                    id.setMinWidth(80);
                     
                     TableColumn namaLengkap = new TableColumn("Nama Lengkap");
                     namaLengkap.setCellValueFactory(new PropertyValueFactory<>("namaLengkap"));
@@ -556,6 +554,28 @@ public class PesananController implements Initializable {
         
         root.requestFocus();
         PesananFilterController child = loader.getController();
+        child.setParent(this);
+        stage.show();
+        
+    }
+    
+    @FXML
+    private void tablePesananClicked() throws Exception{
+        
+        Pesanan pesanan = (Pesanan) tablePesanan.getSelectionModel().getSelectedItem();
+        PesananDetailController.BOOKING_ID = pesanan.getId();
+        
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(PesananController.class.getResource("/com/erthru/pthajratabadiservismobil/ui/pesanandetail/PesananDetailFXML.fxml"));
+        Parent root = loader.load();
+        
+        stage.setScene(new Scene(root));
+        stage.setTitle("Pesanan Detail");
+        stage.setResizable(true);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        
+        root.requestFocus();
+        PesananDetailController child = loader.getController();
         child.setParent(this);
         stage.show();
         
