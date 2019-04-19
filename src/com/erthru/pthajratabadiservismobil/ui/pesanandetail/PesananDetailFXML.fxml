@@ -113,7 +113,10 @@
             </VBox>
          </content>
       </ScrollPane>
-      <TableView fx:id="tableStatus" layoutX="26.0" layoutY="313.0" prefHeight="176.0" prefWidth="548.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../../utils/TableStyle.css" AnchorPane.bottomAnchor="96.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" />
+      <TableView fx:id="tableStatus" layoutX="26.0" layoutY="313.0" prefHeight="176.0" prefWidth="548.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../../utils/TableStyle.css" AnchorPane.bottomAnchor="96.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy></TableView>
       <VBox alignment="CENTER" prefHeight="14.0" prefWidth="548.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0">
          <children>
             <HBox prefHeight="6.0" prefWidth="548.0">

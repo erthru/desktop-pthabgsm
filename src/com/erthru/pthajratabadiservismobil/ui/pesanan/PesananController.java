@@ -11,6 +11,7 @@ import com.erthru.pthajratabadiservismobil.ui.pesananfilter.PesananFilterControl
 import com.erthru.pthajratabadiservismobil.utils.ApiEndPoint;
 import com.erthru.pthajratabadiservismobil.utils.Loading;
 import com.erthru.pthajratabadiservismobil.utils.MsgBox;
+import com.erthru.pthajratabadiservismobil.utils.StringFex;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -263,9 +264,13 @@ public class PesananController implements Initializable {
                     status.setCellValueFactory(new PropertyValueFactory<>("status"));
                     status.setMinWidth(100);
                     
+                    TableColumn createdAt = new TableColumn("Tgl. Pesanan");
+                    createdAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+                    createdAt.setMinWidth(100);
+                    
                     tablePesanan.getColumns().clear();
                     tablePesanan.getItems().clear();
-                    tablePesanan.getColumns().addAll(id,namaLengkap,jenisServis,status);
+                    tablePesanan.getColumns().addAll(id,namaLengkap,jenisServis,status,createdAt);
                     
                     
                 });
@@ -311,12 +316,14 @@ public class PesananController implements Initializable {
                         String namaLengkap = dataBooking.getJSONObject(i).getString("user_nama_lengkap");
                         String jenisServis = dataBooking.getJSONObject(i).getString("booking_jenis_servis");
                         String lastStatus = dataBooking.getJSONObject(i).getString("last_status");
+                        String createdAt = dataBooking.getJSONObject(i).getString("booking_created_at");
                         
                         data.add(new Pesanan(
                                 bookingId,
                                 namaLengkap,
                                 jenisServis,
-                                lastStatus
+                                lastStatus,
+                                StringFex.dateMax(createdAt)
                         ));
                         
                     }
@@ -362,9 +369,13 @@ public class PesananController implements Initializable {
                     status.setCellValueFactory(new PropertyValueFactory<>("status"));
                     status.setMinWidth(100);
                     
+                    TableColumn createdAt = new TableColumn("Tgl. Pesanan");
+                    createdAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+                    createdAt.setMinWidth(100);
+                    
                     tablePesanan.getColumns().clear();
                     tablePesanan.getItems().clear();
-                    tablePesanan.getColumns().addAll(id,namaLengkap,jenisServis,status);
+                    tablePesanan.getColumns().addAll(id,namaLengkap,jenisServis,status,createdAt);
                     
                     
                 });
@@ -409,12 +420,14 @@ public class PesananController implements Initializable {
                         String namaLengkap = dataBooking.getJSONObject(i).getString("user_nama_lengkap");
                         String jenisServis = dataBooking.getJSONObject(i).getString("booking_jenis_servis");
                         String lastStatus = dataBooking.getJSONObject(i).getString("last_status");
+                        String createdAt = dataBooking.getJSONObject(i).getString("booking_created_at");
                         
                         data.add(new Pesanan(
                                 bookingId,
                                 namaLengkap,
                                 jenisServis,
-                                lastStatus
+                                lastStatus,
+                                StringFex.dateMax(createdAt)
                         ));
                         
                     }
@@ -466,9 +479,13 @@ public class PesananController implements Initializable {
                     status.setCellValueFactory(new PropertyValueFactory<>("status"));
                     status.setMinWidth(100);
                     
+                    TableColumn createdAt = new TableColumn("Tgl. Pesanan");
+                    createdAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+                    createdAt.setMinWidth(100);
+                    
                     tablePesanan.getColumns().clear();
                     tablePesanan.getItems().clear();
-                    tablePesanan.getColumns().addAll(id,namaLengkap,jenisServis,status);
+                    tablePesanan.getColumns().addAll(id,namaLengkap,jenisServis,status,createdAt);
                     
                     
                 });
@@ -514,12 +531,14 @@ public class PesananController implements Initializable {
                         String namaLengkap = dataBooking.getJSONObject(i).getString("user_nama_lengkap");
                         String jenisServis = dataBooking.getJSONObject(i).getString("booking_jenis_servis");
                         String lastStatus = dataBooking.getJSONObject(i).getString("last_status");
+                        String createdAt = dataBooking.getJSONObject(i).getString("booking_created_at");
                         
                         data.add(new Pesanan(
                                 bookingId,
                                 namaLengkap,
                                 jenisServis,
-                                lastStatus
+                                lastStatus,
+                                StringFex.dateMax(createdAt)
                         ));
                         
                     }

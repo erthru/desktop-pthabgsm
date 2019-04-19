@@ -9,6 +9,7 @@ import com.erthru.pthajratabadiservismobil.ui.beranda.BerandaController;
 import com.erthru.pthajratabadiservismobil.utils.ApiEndPoint;
 import com.erthru.pthajratabadiservismobil.utils.Loading;
 import com.erthru.pthajratabadiservismobil.utils.MsgBox;
+import com.erthru.pthajratabadiservismobil.utils.StringFex;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -267,8 +268,8 @@ public class PenggunaController implements Initializable {
                                         userNamaLengkap,
                                         userAlamat,
                                         userNoHp,
-                                        userCreatedAt,
-                                        userUpdatedAt,
+                                        StringFex.dateMax(userCreatedAt),
+                                        StringFex.dateMax(userUpdatedAt),
                                         userEmail,
                                         userPass,
                                         userLoginLvl
@@ -409,8 +410,8 @@ public class PenggunaController implements Initializable {
                                         userNamaLengkap,
                                         userAlamat,
                                         userNoHp,
-                                        userCreatedAt,
-                                        userUpdatedAt,
+                                        StringFex.dateMax(userCreatedAt),
+                                        StringFex.dateMax(userUpdatedAt),
                                         userEmail,
                                         userPass,
                                         userLoginLvl

@@ -15,12 +15,14 @@ public class Pesanan {
     private String namaLengkap;
     private String jenisServis;
     private String status;
+    private String createdAt;
 
-    public Pesanan(String id, String namaLengkap, String jenisServis, String status) {
+    public Pesanan(String id, String namaLengkap, String jenisServis, String status, String createdAt) {
         this.id = id;
         this.namaLengkap = namaLengkap;
         this.jenisServis = jenisServis;
         this.status = status;
+        this.createdAt = createdAt;
     }
 
     public String getId() {
@@ -53,6 +55,14 @@ public class Pesanan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
     
     

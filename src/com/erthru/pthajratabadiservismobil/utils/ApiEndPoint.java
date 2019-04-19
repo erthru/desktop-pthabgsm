@@ -22,5 +22,7 @@ public class ApiEndPoint {
     public static String SEARCH_BOOKING_ALL = "http://localhost/anows/api_pthabgsm/app.php?mod=search_booking_all";
     public static String DAFTAR_BOOKING_ALL_DATE_FILTER = "http://localhost/anows/api_pthabgsm/app.php?mod=daftar_booking_all_date_filter";
     public static String DAFTAR_BOOKING_DETAIL = "http://localhost/anows/api_pthabgsm/app.php?mod=daftar_booking_detail";
+    public static String TERIMA_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=terima_booking";
+    public static String DAFTAR_BOOKING_STATUS = "http://localhost/anows/api_pthabgsm/app.php?mod=daftar_booking_status";
     
 }
