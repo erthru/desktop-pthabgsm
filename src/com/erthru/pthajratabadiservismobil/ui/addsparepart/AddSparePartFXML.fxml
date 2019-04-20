@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="138.0" prefWidth="522.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.erthru.pthajratabadiservismobil.ui.addsparepart.AddSparePartController">
+   <children>
+      <Label fx:id="lbNamaBarang" layoutX="32.0" layoutY="27.0" text="Nama Barang">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbHarga" layoutX="32.0" layoutY="59.0" text="Rp.0" textFill="#c0392b" />
+      <TextField fx:id="txJumlah" layoutX="32.0" layoutY="84.0" prefHeight="27.0" prefWidth="121.0" promptText="Jumlah" />
+      <Button fx:id="btnTambah" layoutX="170.0" layoutY="84.0" mnemonicParsing="false" onAction="#btnTambahClicked" prefHeight="27.0" prefWidth="121.0" style="-fx-background-color: #27ae60;" text="TAMBAH" textFill="WHITE" />
+   </children>
+</AnchorPane>
