@@ -26,6 +26,19 @@ public class PTHajratAbadiServisMobil extends Application {
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
+        
+        startUp();
+    }
+    
+    private void startUp(){
+        LocalDB.createTable();
+        
+        try{
+            LocalDB.con().createStatement().executeUpdate("DELETE FROM tb_selected_barang");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
     }
 
     /**

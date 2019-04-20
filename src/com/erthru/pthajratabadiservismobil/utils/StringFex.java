@@ -5,6 +5,8 @@
  */
 package com.erthru.pthajratabadiservismobil.utils;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 
 /**
@@ -32,5 +34,32 @@ public class StringFex {
         return date.substring(8,10) + " " + bulan.get(date.substring(5,7)) + " " + date.substring(0,4) + " | " + date.substring(11);
         
     }
+    
+    public static String strToRp(String text){
+        
+        DecimalFormat kurs = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols dcs = new DecimalFormatSymbols();
+        
+        dcs.setGroupingSeparator(',');
+        kurs.setDecimalFormatSymbols(dcs);
+        
+        String rp = kurs.format(Double.parseDouble(text)).replace("IDR", "").replace("$", "");
+        
+        return rp.substring(0,rp.length() - 3);
+
+    }
+    
+    public static String numberWithComaOnly(String value){
+        
+        String number = value.replaceAll("\\D+", "");
+        
+        if(number.equals("")){
+            return "";
+        }else{
+            return strToRp(number);
+        }
+        
+    }
+
     
 }

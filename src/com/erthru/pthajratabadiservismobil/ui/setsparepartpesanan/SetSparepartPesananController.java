@@ -11,9 +11,13 @@ import com.erthru.pthajratabadiservismobil.ui.pesanan.PesananController;
 import com.erthru.pthajratabadiservismobil.ui.pesanandetail.PesananDetailController;
 import com.erthru.pthajratabadiservismobil.utils.ApiEndPoint;
 import com.erthru.pthajratabadiservismobil.utils.Loading;
+import com.erthru.pthajratabadiservismobil.utils.LocalDB;
 import com.erthru.pthajratabadiservismobil.utils.MsgBox;
+import com.erthru.pthajratabadiservismobil.utils.StringFex;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -76,18 +80,65 @@ public class SetSparepartPesananController implements Initializable {
     @FXML
     private Button btnSet;
     
+    @FXML
+    private Button btnReset;
+    
     private PesananController parent;
     private PesananDetailController parent1;
     
-    private ArrayList<Barang> selectedBarangArr = new ArrayList<>();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setPaging();
+        setCustomListener();
     }  
     
     @FXML
+    private void btnResetClicked() throws Exception{
+        
+        LocalDB.con().createStatement().executeUpdate("DELETE FROM tb_selected_barang");
+        setTableSelectedBarang();
+        
+    }
+    
+    @FXML
+    private void txBiayaOnTextChanged(){
+        
+        txBiaya.setText(StringFex.numberWithComaOnly(txBiaya.getText()));
+        txBiaya.positionCaret(txBiaya.getText().length());
+        
+    }
+    
+    private void setCustomListener(){
+                
+        Platform.runLater(()->{
+            
+            try{
+                
+                paging.currentPageIndexProperty().addListener((obs,oldIndex,newIndex)->
+                    setTableBarang(String.valueOf(Integer.parseInt(newIndex.toString())+1))
+                );
+
+                Stage thisStage = (Stage) btnSet.getScene().getWindow();
+                thisStage.setOnHiding(event -> {
+                    try {
+                        LocalDB.con().createStatement().executeUpdate("DELETE FROM tb_selected_barang");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+        });
+        
+    }
+    
+    @FXML
     private void btnSetClicked(){
+        
         
     }
     
@@ -127,15 +178,17 @@ public class SetSparepartPesananController implements Initializable {
     }
     
     @FXML
-    private void tableSelectedBarangClicked(){
+    private void tableSelectedBarangClicked() throws Exception{
         
         if(tableSelectedBarang.getSelectionModel().getSelectedItem() != null){
             int ok = MsgBox.confirm("Keluarkan data ini ?");
         
             if(ok == 1){
-                selectedBarangArr.remove(tableSelectedBarang.getSelectionModel().getSelectedIndex());
-                System.out.print(selectedBarangArr.toString());
+                
+                SelectedBarang selectedBarang = (SelectedBarang) tableSelectedBarang.getSelectionModel().getSelectedItem();
+                LocalDB.con().createStatement().executeUpdate("DELETE FROM tb_selected_barang WHERE selected_barang_id = '"+selectedBarang.getId()+"'");
                 setTableSelectedBarang();
+                
             }
         }
         
@@ -146,9 +199,18 @@ public class SetSparepartPesananController implements Initializable {
         this.parent1 = parent1;
     }
     
-    public void addSelectedBarang(ArrayList<Barang> selectedBarangArr){
+    public void addSelectedBarang(ArrayList<Barang> barangArr){
                 
-        this.selectedBarangArr.addAll(selectedBarangArr);
+        for(int i=0; i<barangArr.size(); i++){
+            
+            try{
+                LocalDB.con().createStatement().executeUpdate("INSERT INTO tb_selected_barang (selected_barang_code,selected_barang_nama,selected_barang_harga,selected_barang_kategori) VALUES ('"+barangArr.get(i).getId()+"','"+barangArr.get(i).getNama()+"','"+barangArr.get(i).getHarga()+"','"+barangArr.get(i).getKategori()+"')");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+        }
+        
         setTableSelectedBarang();
         
     }
@@ -162,54 +224,57 @@ public class SetSparepartPesananController implements Initializable {
             protected Void call() throws Exception {
                 
                 Platform.runLater(()->{
-                    loading.show();
-                });
-                
-                CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page=1");
-                
-                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+                    try{
+                        loading.show();
+                        
+                        CloseableHttpClient httpclient = HttpClients.createDefault();
+                        HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page=1");
 
-                    @Override
-                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                        int status = response.getStatusLine().getStatusCode();
-                        if (status >= 200 && status < 300) {
-                            HttpEntity entity = response.getEntity();
-                            JSONObject json = null;
-                            try {
-                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                            } catch (JSONException ex) {
-                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                            @Override
+                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                                int status = response.getStatusLine().getStatusCode();
+                                if (status >= 200 && status < 300) {
+                                    HttpEntity entity = response.getEntity();
+                                    JSONObject json = null;
+                                    try {
+                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                                    } catch (JSONException ex) {
+                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    return json;
+                                } else {
+                                    System.out.println("Unexpected response status: " + status);
+                                    return null;
+                                }
                             }
-                            return json;
-                        } else {
-                            System.out.println("Unexpected response status: " + status);
-                            return null;
-                        }
-                    }
 
-                 };
-                
-                JSONObject response = httpclient.execute(get, responseHandler);
-                
-                Platform.runLater(()->{
-                    loading.dismiss();
+                         };
+
+                        JSONObject response = httpclient.execute(get, responseHandler);
+
+                        loading.dismiss();
+
+                        if(response != null){
+
+                            String total = response.getString("total");
+
+                            paging.setPageCount(Integer.parseInt(total) / 10 + 1);
+                            paging.setCurrentPageIndex(0);
+
+                            setTableBarang("1");
+
+                        }else{
+                            MsgBox.error("Koneksi internet gagal.");
+                        }
+                        
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 });
                 
-                if(response != null){
-                    
-                    String total = response.getString("total");
-                    
-                    Platform.runLater(()->{
-                        paging.setPageCount(Integer.parseInt(total) / 10 + 1);
-                        paging.setCurrentPageIndex(0);
-                    });
-                    
-                    setTableBarang("1");
-                    
-                }else{
-                    MsgBox.error("Koneksi internet gagal.");
-                }
+                
                 
                 return null;
             }
@@ -220,9 +285,7 @@ public class SetSparepartPesananController implements Initializable {
         Thread t = new Thread(work);
         t.start();
         
-        paging.currentPageIndexProperty().addListener((obs,oldIndex,newIndex)->
-                setTableBarang(String.valueOf(Integer.parseInt(newIndex.toString())+1))
-        );
+        
     }
     
     private void setTableBarang(String page){
@@ -235,93 +298,89 @@ public class SetSparepartPesananController implements Initializable {
                 
                 Platform.runLater(()->{
                                                         
-                    TableColumn id = new TableColumn("ID");
-                    id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                    id.setMaxWidth(0);
-                    id.setMinWidth(0);
+                    try{
+                        TableColumn id = new TableColumn("ID");
+                        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                        id.setMaxWidth(0);
+                        id.setMinWidth(0);
 
-                    TableColumn nama = new TableColumn("Nama");
-                    nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-                    nama.setMinWidth(300);
+                        TableColumn nama = new TableColumn("Nama");
+                        nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
+                        nama.setMinWidth(300);
 
-                    TableColumn harga = new TableColumn("Harga");
-                    harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
-                    harga.setMinWidth(100);
+                        TableColumn harga = new TableColumn("Harga");
+                        harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
+                        harga.setMinWidth(100);
 
-                    TableColumn kategori = new TableColumn("Kategori");
-                    kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
-                    kategori.setMinWidth(50);
+                        TableColumn kategori = new TableColumn("Kategori");
+                        kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
+                        kategori.setMinWidth(50);
 
-                    tableBarang.getColumns().clear();
-                    tableBarang.getItems().clear();
-                    tableBarang.getColumns().addAll(id,nama,harga,kategori);
-                
-                });
-                
-                Platform.runLater(()->{
-                    loading.show();
-                });
-                
-                CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page="+page);
-                
-                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+                        tableBarang.getColumns().clear();
+                        tableBarang.getItems().clear();
+                        tableBarang.getColumns().addAll(id,nama,harga,kategori);
+                        
+                        loading.show();
+                        
+                        CloseableHttpClient httpclient = HttpClients.createDefault();
+                        HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page="+page);
 
-                    @Override
-                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                        int status = response.getStatusLine().getStatusCode();
-                        if (status >= 200 && status < 300) {
-                            HttpEntity entity = response.getEntity();
-                            JSONObject json = null;
-                            try {
-                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                            } catch (JSONException ex) {
-                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                            @Override
+                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                                int status = response.getStatusLine().getStatusCode();
+                                if (status >= 200 && status < 300) {
+                                    HttpEntity entity = response.getEntity();
+                                    JSONObject json = null;
+                                    try {
+                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                                    } catch (JSONException ex) {
+                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    return json;
+                                } else {
+                                    System.out.println("Unexpected response status: " + status);
+                                    return null;
+                                }
                             }
-                            return json;
-                        } else {
-                            System.out.println("Unexpected response status: " + status);
-                            return null;
-                        }
-                    }
 
-                 };
+                         };
+
+                        JSONObject response = httpclient.execute(get, responseHandler);
+
+                        loading.dismiss();
+
+                        if(response != null){
+                            JSONArray daftarBarangServis = response.getJSONArray("daftar_barang_servis");
+
+                            ObservableList<Barang> data = FXCollections.observableArrayList();
+
+                            for(int i=0; i<daftarBarangServis.length(); i++){
+
+                                String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
+                                String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
+                                String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
+                                String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
+
+                                data.add(
+                                        new Barang(idj,namaj,"Rp. "+StringFex.numberWithComaOnly(hargaj),kategorij)
+                                );
+
+                            }
+
+                            tableBarang.setItems(data);
+
+                        }else{
+                            MsgBox.error("Koneksi internet gagal.");
+                        }           
+                        
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 
-                JSONObject response = httpclient.execute(get, responseHandler);
-                
-                Platform.runLater(()->{
-                    loading.dismiss();
                 });
-                
-                if(response != null){
-                    JSONArray daftarBarangServis = response.getJSONArray("daftar_barang_servis");
-                
-                    ObservableList<Barang> data = FXCollections.observableArrayList();
 
-                    for(int i=0; i<daftarBarangServis.length(); i++){
-
-                        String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
-                        String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
-                        String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
-                        String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
-
-                        data.add(
-                                new Barang(idj,namaj,hargaj,kategorij)
-                        );
-
-                    }
-
-                    Platform.runLater(()->{
-                        tableBarang.setItems(data);
-                    });
-                    
-                }else{
-                    Platform.runLater(()->{
-                        MsgBox.error("Koneksi internet gagal.");
-                    });
-                }                                             
-                
-                
                 return null;
             }
             
@@ -340,86 +399,87 @@ public class SetSparepartPesananController implements Initializable {
                 
                 Platform.runLater(()->{
                 
-                    TableColumn id = new TableColumn("ID");
-                    id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                    id.setMaxWidth(0);
-                    id.setMinWidth(0);
+                    try{
+                        
+                        TableColumn id = new TableColumn("ID");
+                        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                        id.setMaxWidth(0);
+                        id.setMinWidth(0);
 
-                    TableColumn nama = new TableColumn("Nama");
-                    nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-                    nama.setMinWidth(300);
+                        TableColumn nama = new TableColumn("Nama");
+                        nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
+                        nama.setMinWidth(300);
 
-                    TableColumn harga = new TableColumn("Harga");
-                    harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
-                    harga.setMinWidth(100);
+                        TableColumn harga = new TableColumn("Harga");
+                        harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
+                        harga.setMinWidth(100);
 
-                    TableColumn kategori = new TableColumn("Kategori");
-                    kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
-                    kategori.setMinWidth(50);
+                        TableColumn kategori = new TableColumn("Kategori");
+                        kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
+                        kategori.setMinWidth(50);
 
-                    tableBarang.getColumns().clear();
-                    tableBarang.getItems().clear();
-                    tableBarang.getColumns().addAll(id,nama,harga,kategori);
+                        tableBarang.getColumns().clear();
+                        tableBarang.getItems().clear();
+                        tableBarang.getColumns().addAll(id,nama,harga,kategori);
+                        
+                        CloseableHttpClient httpclient = HttpClients.createDefault();
+                        HttpGet get = new HttpGet(ApiEndPoint.SEARCH_BARANG_SERVIS+"&q="+q);
+
+                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                            @Override
+                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                                int status = response.getStatusLine().getStatusCode();
+                                if (status >= 200 && status < 300) {
+                                    HttpEntity entity = response.getEntity();
+                                    JSONObject json = null;
+                                    try {
+                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                                    } catch (JSONException ex) {
+                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    return json;
+                                } else {
+                                    System.out.println("Unexpected response status: " + status);
+                                    return null;
+                                }
+                            }
+
+                         };
+
+                        JSONObject response = httpclient.execute(get, responseHandler);
+
+                        if(response != null){
+                            JSONArray daftarBarangServis = response.getJSONArray("daftar_barang_servis");
+
+                            ObservableList<Barang> data = FXCollections.observableArrayList();
+
+                            for(int i=0; i<daftarBarangServis.length(); i++){
+
+                                String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
+                                String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
+                                String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
+                                String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
+
+                                data.add(
+                                        new Barang(idj,namaj,"Rp. "+StringFex.numberWithComaOnly(hargaj),kategorij)
+                                );
+
+                            }
+
+                            tableBarang.setItems(data);
+
+                        }else{
+                            MsgBox.error("Koneksi internet gagal.");
+                        }           
+                        
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 
                 });
                 
-                
-                CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet get = new HttpGet(ApiEndPoint.SEARCH_BARANG_SERVIS+"&q="+q);
-                
-                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
 
-                    @Override
-                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                        int status = response.getStatusLine().getStatusCode();
-                        if (status >= 200 && status < 300) {
-                            HttpEntity entity = response.getEntity();
-                            JSONObject json = null;
-                            try {
-                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                            } catch (JSONException ex) {
-                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            return json;
-                        } else {
-                            System.out.println("Unexpected response status: " + status);
-                            return null;
-                        }
-                    }
-
-                 };
-                
-                JSONObject response = httpclient.execute(get, responseHandler);
-                
-                if(response != null){
-                    JSONArray daftarBarangServis = response.getJSONArray("daftar_barang_servis");
-                
-                    ObservableList<Barang> data = FXCollections.observableArrayList();
-
-                    for(int i=0; i<daftarBarangServis.length(); i++){
-
-                        String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
-                        String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
-                        String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
-                        String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
-
-                        data.add(
-                                new Barang(idj,namaj,hargaj,kategorij)
-                        );
-
-                    }
-
-                    Platform.runLater(()->{
-                        tableBarang.setItems(data);
-                    });
-                    
-                }else{
-                    Platform.runLater(()->{
-                        MsgBox.error("Koneksi internet gagal.");
-                    });
-                }                                             
-                
-                
                 return null;
             }
             
@@ -438,41 +498,56 @@ public class SetSparepartPesananController implements Initializable {
                 
                 Platform.runLater(()->{
                 
-                    TableColumn id = new TableColumn("ID");
-                    id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                    id.setMaxWidth(0);
-                    id.setMinWidth(0);
+                   
+                    try{
+                        
+                        TableColumn id = new TableColumn("ID");
+                        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                        id.setMaxWidth(0);
+                        id.setMinWidth(0);
 
-                    TableColumn nama = new TableColumn("Nama");
-                    nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-                    nama.setMinWidth(300);
-                    nama.setSortType(TableColumn.SortType.ASCENDING);
+                        TableColumn code = new TableColumn("CODE");
+                        code.setCellValueFactory(new PropertyValueFactory<>("code"));
+                        code.setMaxWidth(0);
+                        code.setMinWidth(0);
 
-                    TableColumn harga = new TableColumn("Harga");
-                    harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
-                    harga.setMinWidth(100);
+                        TableColumn nama = new TableColumn("Nama");
+                        nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
+                        nama.setMinWidth(300);
 
-                    TableColumn kategori = new TableColumn("Kategori");
-                    kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
-                    kategori.setMinWidth(50);
+                        TableColumn harga = new TableColumn("Harga");
+                        harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
+                        harga.setMinWidth(100);
 
-                    tableSelectedBarang.getColumns().clear();
-                    tableSelectedBarang.getItems().clear();
-                    tableSelectedBarang.getColumns().addAll(id,nama,harga,kategori);
-                                        
-                    ObservableList<Barang> data = FXCollections.observableArrayList();
-                
-                    for(int i=0; i<selectedBarangArr.size(); i++){
-                        data.add(new Barang(
-                                selectedBarangArr.get(i).getId(),
-                                selectedBarangArr.get(i).getNama(),
-                                selectedBarangArr.get(i).getHarga(),
-                                selectedBarangArr.get(i).getKategori()
-                        ));
+                        TableColumn kategori = new TableColumn("Kategori");
+                        kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
+                        kategori.setMinWidth(50);
+
+                        tableSelectedBarang.getColumns().clear();
+                        tableSelectedBarang.getItems().clear();
+                        tableSelectedBarang.getColumns().addAll(id,code,nama,harga,kategori);
+                        
+                        ObservableList<SelectedBarang> data = FXCollections.observableArrayList();
+                        
+                        ResultSet rs = LocalDB.con().createStatement().executeQuery("SELECT * FROM tb_selected_barang ORDER BY selected_barang_nama ASC");
+                        
+                        while(rs.next()){
+                            
+                            data.add(new SelectedBarang(
+                                    rs.getString("selected_barang_id"),
+                                    rs.getString("selected_barang_code"),
+                                    rs.getString("selected_barang_nama"),
+                                    "Rp. "+StringFex.numberWithComaOnly(rs.getString("selected_barang_harga")),
+                                    rs.getString("selected_barang_kategori")
+                            ));
+                            
+                        }
+                        
+                        tableSelectedBarang.getItems().addAll(data);
+                        
+                    }catch(Exception e){
+                        e.printStackTrace();
                     }
-                    
-                    tableSelectedBarang.getItems().addAll(data);
-                    tableSelectedBarang.getSortOrder().add(nama);
                 
                 });           
                                

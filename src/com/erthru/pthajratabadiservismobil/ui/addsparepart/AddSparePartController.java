@@ -65,10 +65,10 @@ public class AddSparePartController implements Initializable {
             
             int jumlah = Integer.parseInt(txJumlah.getText());
             
-            ArrayList<Barang> selectedBarangArr = new ArrayList<>();
+            ArrayList<Barang> barangArr = new ArrayList<>();
             
             for(int i=0; i<jumlah; i++){
-                selectedBarangArr.add(new Barang(
+                barangArr.add(new Barang(
                         barang.getId(),
                         barang.getNama(),
                         barang.getHarga(),
@@ -78,7 +78,7 @@ public class AddSparePartController implements Initializable {
             }
             
             
-            parent2.addSelectedBarang(selectedBarangArr);
+            parent2.addSelectedBarang(barangArr);
             
             Stage stg = (Stage) btnTambah.getScene().getWindow();
             stg.close();
