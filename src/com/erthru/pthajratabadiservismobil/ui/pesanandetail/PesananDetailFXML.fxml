@@ -44,6 +44,58 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
+                  <Label text="Model Kendaraan">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets top="16.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lbModelKendaraan" text="2001">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label text="Vincode">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets top="16.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lbVincode" text="124125412">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label text="KM">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets top="16.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lbKM" text="4241">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label text="No Polisi">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets top="16.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lbNoPolisi" text="DM 0000 AB">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
                   <Label text="Keterangan">
                      <font>
                         <Font name="Arial Bold" size="13.0" />

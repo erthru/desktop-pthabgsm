@@ -41,11 +41,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,6 +89,8 @@ public class SetSparepartPesananController implements Initializable {
     
     private PesananController parent;
     private PesananDetailController parent1;
+    
+    public static String BOOKING_ID;
     
     
     @Override
@@ -137,8 +143,97 @@ public class SetSparepartPesananController implements Initializable {
     }
     
     @FXML
-    private void btnSetClicked(){
+    private void btnSetClicked() throws Exception{
         
+        class Work extends Task<Void>{
+                
+            Loading loading = new Loading();
+            String selectedItem = "";
+
+            @Override
+            protected Void call() throws Exception {
+
+                Platform.runLater(()->{
+                    try{
+
+                        ResultSet rs = LocalDB.con().createStatement().executeQuery("SELECT * FROM tb_selected_barang");
+
+                        while(rs.next()){
+                            selectedItem += rs.getString("selected_barang_code")+",";
+                        }
+
+                        if(txBiaya.getText().isEmpty()){
+                            MsgBox.error("Biaya servis belum ditentukan");
+                        }else if(selectedItem.equals("")){
+                            MsgBox.error("Item servis belum ditentukan");
+                        }else{
+
+                            loading.show();
+
+                            CloseableHttpClient httpclient = HttpClients.createDefault();
+                            HttpPost post = new HttpPost(ApiEndPoint.PEMILIHAN_PART_BOOKING);
+
+                            ArrayList<NameValuePair> params = new ArrayList<>();
+                            params.add(new BasicNameValuePair("booking_id",BOOKING_ID));
+                            params.add(new BasicNameValuePair("barang_servis_id",selectedItem));
+                            params.add(new BasicNameValuePair("booking_biaya",txBiaya.getText()));
+
+                            post.setEntity(new UrlEncodedFormEntity(params));
+
+                            ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                                @Override
+                                public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                                    int status = response.getStatusLine().getStatusCode();
+                                    if (status >= 200 && status < 300) {
+                                        HttpEntity entity = response.getEntity();
+                                        JSONObject json = null;
+                                        try {
+                                            json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                                        } catch (JSONException ex) {
+                                            Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        return json;
+                                    } else {
+                                        System.out.println("Unexpected response status: " + status);
+                                        return null;
+                                    }
+                                }
+
+                             };
+
+                            JSONObject response = httpclient.execute(post, responseHandler);
+                            
+                            loading.dismiss();
+                            
+                            if(response != null){
+                                
+                                String pesan = response.getString("pesan");
+                                MsgBox.success(pesan);
+                                
+                                parent.setPaging();
+                                
+                                Stage stg = (Stage) txBiaya.getScene().getWindow();
+                                stg.close();
+                                
+                            }else{
+                                MsgBox.error("Koneksi internet gagal.");
+                            }
+
+                        }
+
+
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                });
+
+                return null;
+            }
+
+        }
+        
+        new Thread(new Work()).start();
         
     }
     

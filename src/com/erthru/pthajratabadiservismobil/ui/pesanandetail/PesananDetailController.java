@@ -84,6 +84,18 @@ public class PesananDetailController implements Initializable {
     private Label lbNohp;
     
     @FXML
+    private Label lbModelKendaraan;
+    
+    @FXML
+    private Label lbVincode;
+    
+    @FXML
+    private Label lbKM;
+    
+    @FXML
+    private Label lbNoPolisi;
+    
+    @FXML
     private TableView tableStatus;
     
     @FXML
@@ -130,6 +142,7 @@ public class PesananDetailController implements Initializable {
             root.requestFocus();
             SetSparepartPesananController child = loader.getController();
             child.setParent(parent,this);
+            SetSparepartPesananController.BOOKING_ID = BOOKING_ID;
             stage.show();
             
             Stage stg = (Stage) btnSet.getScene().getWindow();
@@ -304,6 +317,10 @@ public class PesananDetailController implements Initializable {
 
                             String bookingId = response.getJSONObject("data_booking").getString("booking_id");
                             String bookingJenisServis = response.getJSONObject("data_booking").getString("booking_jenis_servis");
+                            String bookingModelKendaraan = response.getJSONObject("data_booking").getString("booking_model_kendaraan");
+                            String bookingVincode = response.getJSONObject("data_booking").getString("booking_vincode");
+                            String bookingKm = response.getJSONObject("data_booking").getString("booking_km");
+                            String bookingNoPolisi = response.getJSONObject("data_booking").getString("booking_no_polisi");
                             String bookingKeterangan = response.getJSONObject("data_booking").getString("booking_keterangan");
                             String bookingCreatedAt = response.getJSONObject("data_booking").getString("booking_created_at");
                             String userId = response.getJSONObject("data_booking").getString("user_id");
@@ -324,6 +341,10 @@ public class PesananDetailController implements Initializable {
                             lbNamaPemesan.setText(userNamaLengkap);
                             lbAlamat.setText(userAlamat);
                             lbNohp.setText(userNohp);
+                            lbModelKendaraan.setText(bookingModelKendaraan);
+                            lbVincode.setText(bookingVincode);
+                            lbKM.setText(bookingKm);
+                            lbNoPolisi.setText(bookingNoPolisi);
 
                             btnSet.setVisible(true);
                             btnTolak.setVisible(true);
