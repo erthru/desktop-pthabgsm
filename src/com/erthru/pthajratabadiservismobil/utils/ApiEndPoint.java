@@ -25,5 +25,9 @@ public class ApiEndPoint {
     public static String TERIMA_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=terima_booking";
     public static String DAFTAR_BOOKING_STATUS = "http://localhost/anows/api_pthabgsm/app.php?mod=daftar_booking_status";
     public static String PEMILIHAN_PART_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=pemilihan_part_booking";
+    public static String DAFTAR_BOOKING_ITEM = "http://localhost/anows/api_pthabgsm/app.php?mod=daftar_booking_item";
+    public static String DALAM_PENGERJAAM_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=dalam_pengerjaan_booking";
+    public static String SELESAI_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=selesai_booking";
+    public static String DITOLAK_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=ditolak_booking";
     
 }

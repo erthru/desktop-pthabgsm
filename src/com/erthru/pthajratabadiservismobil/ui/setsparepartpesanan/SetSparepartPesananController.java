@@ -113,6 +113,8 @@ public class SetSparepartPesananController implements Initializable {
         txBiaya.setText(StringFex.numberWithComaOnly(txBiaya.getText()));
         txBiaya.positionCaret(txBiaya.getText().length());
         
+        System.out.println(txBiaya.getText().replaceAll(",", ""));
+        
     }
     
     private void setCustomListener(){
@@ -176,7 +178,7 @@ public class SetSparepartPesananController implements Initializable {
                             ArrayList<NameValuePair> params = new ArrayList<>();
                             params.add(new BasicNameValuePair("booking_id",BOOKING_ID));
                             params.add(new BasicNameValuePair("barang_servis_id",selectedItem));
-                            params.add(new BasicNameValuePair("booking_biaya",txBiaya.getText()));
+                            params.add(new BasicNameValuePair("booking_biaya",txBiaya.getText().replaceAll(",", "")));
 
                             post.setEntity(new UrlEncodedFormEntity(params));
 

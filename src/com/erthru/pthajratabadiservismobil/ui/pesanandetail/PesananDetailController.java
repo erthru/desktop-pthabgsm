@@ -9,6 +9,7 @@ import com.erthru.pthajratabadiservismobil.ui.beranda.BerandaController;
 import com.erthru.pthajratabadiservismobil.ui.pengguna.PenggunaController;
 import com.erthru.pthajratabadiservismobil.ui.pesanan.PesananController;
 import com.erthru.pthajratabadiservismobil.ui.setsparepartpesanan.SetSparepartPesananController;
+import com.erthru.pthajratabadiservismobil.ui.viewsparepart.ViewSparePartController;
 import com.erthru.pthajratabadiservismobil.utils.ApiEndPoint;
 import com.erthru.pthajratabadiservismobil.utils.Loading;
 import com.erthru.pthajratabadiservismobil.utils.MsgBox;
@@ -109,6 +110,7 @@ public class PesananDetailController implements Initializable {
     
     public static String BOOKING_ID;
     private String lastStatus;
+    private String bookingBiaya;
     
     private PesananController parent;
     
@@ -150,13 +152,108 @@ public class PesananDetailController implements Initializable {
             
         }else if(lastStatus.equals("PEMILIHAN PART")){
             
+            ViewSparePartController.LAST_STATUS = lastStatus;
+            ViewSparePartController.BOOKING_BIAYA = bookingBiaya;
+            ViewSparePartController.BOOKING_ID = BOOKING_ID;
+            
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/viewsparepart/ViewSparePartFXML.fxml"));
+            Parent root = loader.load();
+            
+            stage.setScene(new Scene(root));
+            stage.setTitle("Lihat Sparepart");
+            stage.setResizable(true);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            
+            root.requestFocus();
+            ViewSparePartController child = loader.getController();
+            child.setParent(parent,this);
+            
+            stage.show();
+            
         }else if(lastStatus.equals("MENUNGGU PERSETUJUAN")){
+            
+            ViewSparePartController.LAST_STATUS = lastStatus;
+            ViewSparePartController.BOOKING_BIAYA = bookingBiaya;
+            ViewSparePartController.BOOKING_ID = BOOKING_ID;
+            
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/viewsparepart/ViewSparePartFXML.fxml"));
+            Parent root = loader.load();
+            
+            stage.setScene(new Scene(root));
+            stage.setTitle("Lihat Sparepart");
+            stage.setResizable(true);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            
+            root.requestFocus();
+            ViewSparePartController child = loader.getController();
+            child.setParent(parent,this);
+            
+            stage.show();
             
         }else if(lastStatus.equals("DALAM PENGERJAAN")){
             
+            ViewSparePartController.LAST_STATUS = lastStatus;
+            ViewSparePartController.BOOKING_BIAYA = bookingBiaya;
+            ViewSparePartController.BOOKING_ID = BOOKING_ID;
+            
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/viewsparepart/ViewSparePartFXML.fxml"));
+            Parent root = loader.load();
+            
+            stage.setScene(new Scene(root));
+            stage.setTitle("Lihat Sparepart");
+            stage.setResizable(true);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            
+            root.requestFocus();
+            ViewSparePartController child = loader.getController();
+            child.setParent(parent,this);
+            
+            stage.show();
+            
         }else if(lastStatus.equals("SELESAI")){
             
+            ViewSparePartController.LAST_STATUS = lastStatus;
+            ViewSparePartController.BOOKING_BIAYA = bookingBiaya;
+            ViewSparePartController.BOOKING_ID = BOOKING_ID;
+            
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/viewsparepart/ViewSparePartFXML.fxml"));
+            Parent root = loader.load();
+            
+            stage.setScene(new Scene(root));
+            stage.setTitle("Lihat Sparepart");
+            stage.setResizable(true);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            
+            root.requestFocus();
+            ViewSparePartController child = loader.getController();
+            child.setParent(parent,this);
+            
+            stage.show();
+            
         }else if(lastStatus.equals("DITOLAK")){
+            
+            ViewSparePartController.LAST_STATUS = lastStatus;
+            ViewSparePartController.BOOKING_BIAYA = bookingBiaya;
+            ViewSparePartController.BOOKING_ID = BOOKING_ID;
+            
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/viewsparepart/ViewSparePartFXML.fxml"));
+            Parent root = loader.load();
+            
+            stage.setScene(new Scene(root));
+            stage.setTitle("Lihat Sparepart");
+            stage.setResizable(true);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            
+            root.requestFocus();
+            ViewSparePartController child = loader.getController();
+            child.setParent(parent,this);
+            
+            stage.show();
             
         }
     }
@@ -164,9 +261,17 @@ public class PesananDetailController implements Initializable {
     @FXML
     private void btnTolakClicked(){
         
+        int ok = MsgBox.confirm("Tolak pesanan ini ?");
+        
+        if(ok == 1){
+            
+            tolakPesanan();
+            
+        }
+        
     }
     
-    private void setTableStatus(){
+    public void setTableStatus(){
         
         class Work extends Task<Void>{
 
@@ -270,7 +375,7 @@ public class PesananDetailController implements Initializable {
         
     }
     
-    private void loadBookingData(){
+    public void loadBookingData(){
         
         class Work extends Task<Void>{
 
@@ -322,6 +427,7 @@ public class PesananDetailController implements Initializable {
                             String bookingKm = response.getJSONObject("data_booking").getString("booking_km");
                             String bookingNoPolisi = response.getJSONObject("data_booking").getString("booking_no_polisi");
                             String bookingKeterangan = response.getJSONObject("data_booking").getString("booking_keterangan");
+                            bookingBiaya = response.getJSONObject("data_booking").getString("booking_biaya");
                             String bookingCreatedAt = response.getJSONObject("data_booking").getString("booking_created_at");
                             String userId = response.getJSONObject("data_booking").getString("user_id");
                             String dealerId = response.getJSONObject("data_booking").getString("dealer_id");
@@ -365,13 +471,15 @@ public class PesananDetailController implements Initializable {
                                 btnSet.setText("SET PESANAN INI TELAH SELESAI");
                                 lbBottomKet.setText("Tekan tombol di atas jika pesanan ini telah selesai.");
                             }else if(lastStatus.equals("SELESAI")){
-                                btnSet.setVisible(false);
-                                btnTolak.setVisible(false);
+                                btnSet.setText("LIHAT SPAREPART YANG DIPILIH");
                                 lbBottomKet.setText("Pesanan ini telah selesai");
-                            }else if(lastStatus.equals("DITOLAK")){
                                 btnSet.setVisible(false);
                                 btnTolak.setVisible(false);
+                            }else if(lastStatus.equals("DITOLAK")){
+                                btnSet.setText("LIHAT SPAREPART YANG DIPILIH");
                                 lbBottomKet.setText("Pesanan ini telah ditolak");
+                                btnSet.setVisible(false);
+                                btnTolak.setVisible(false);
                             }
 
                         }else{
@@ -478,6 +586,88 @@ public class PesananDetailController implements Initializable {
         
         new Thread(new Work()).start();
         
+    }
+    
+    private void tolakPesanan(){
+        class Work extends Task<Void>{
+
+            Loading loading = new Loading();
+            
+            @Override
+            protected Void call() throws Exception {
+                
+                Platform.runLater(()->{
+                    try{
+                        
+                        loading.show();
+                        
+                        CloseableHttpClient httpclient = HttpClients.createDefault();
+                        HttpPost post = new HttpPost(ApiEndPoint.DITOLAK_BOOKING);
+
+                        ArrayList<NameValuePair> params = new ArrayList<>();
+                        params.add(new BasicNameValuePair("booking_id",BOOKING_ID));
+
+                        post.setEntity(new UrlEncodedFormEntity(params));
+
+                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                            @Override
+                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                                int status = response.getStatusLine().getStatusCode();
+                                if (status >= 200 && status < 300) {
+                                    HttpEntity entity = response.getEntity();
+                                    JSONObject json = null;
+                                    try {
+                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                                    } catch (JSONException ex) {
+                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    return json;
+                                } else {
+                                    System.out.println("Unexpected response status: " + status);
+                                    return null;
+                                }
+                            }
+
+                         };
+
+                        JSONObject response = httpclient.execute(post, responseHandler);
+
+                        loading.dismiss();
+
+                        if(response != null){
+
+                            Boolean error = response.getBoolean("error");
+                            String pesan = response.getString("pesan");
+
+                            if(!error){
+
+                                MsgBox.success(pesan);
+
+                                parent.setPaging();
+
+                                Stage stg = (Stage) btnSet.getScene().getWindow();
+                                stg.close();
+
+                            }else{
+                                MsgBox.error(pesan); 
+                            }
+
+                        }
+                        
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                
+                
+                
+                return null;
+            }
+            
+        }
+        
+        new Thread(new Work()).start();
     }
     
     public void setParent(PesananController parent){
