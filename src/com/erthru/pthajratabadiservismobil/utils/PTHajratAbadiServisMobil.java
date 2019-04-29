@@ -19,12 +19,14 @@ public class PTHajratAbadiServisMobil extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/main/MainFXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/login/LoginFXML.fxml"));
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
-        stage.setMaximized(true);
+        stage.setMaximized(false);
+        
+        root.requestFocus();        
         stage.show();
         
         startUp();

@@ -213,64 +213,69 @@ public class BarangController implements Initializable {
                 
                 Platform.runLater(()->{
                     
-                    try{
-                        loading.show();
-                    
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                        HttpPost post = new HttpPost(ApiEndPoint.ADD_BARANG_SERVIS);
-
-                        ArrayList<NameValuePair> params = new ArrayList<>();
-                        params.add(new BasicNameValuePair("servis_nama",txNama.getText()));
-                        params.add(new BasicNameValuePair("servis_harga",txHarga.getText().replace(",", "")));
-                        params.add(new BasicNameValuePair("servis_kategori",comboKategori.getSelectionModel().getSelectedItem().toString()));
-
-                        post.setEntity(new UrlEncodedFormEntity(params));
-
-                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
-
-                            @Override
-                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                int status = response.getStatusLine().getStatusCode();
-                                if (status >= 200 && status < 300) {
-                                    HttpEntity entity = response.getEntity();
-                                    JSONObject json = null;
-                                    try {
-                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                    } catch (JSONException ex) {
-                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    return json;
-                                } else {
-                                    System.out.println("Unexpected response status: " + status);
-                                    return null;
-                                }
-                            }
-
-                         };
-
-                        JSONObject response = httpclient.execute(post, responseHandler);
-
-                        loading.dismiss();
-
-                        if(response != null){
-
-                            if(!response.getBoolean("error")){
-                                MsgBox.success(response.getString("pesan"));
-                            }else{
-                                MsgBox.error(response.getString("pesan"));
-                            }                                        
-
-                            reset();
-
-                        }else{
-                           MsgBox.error("Koneksi internet gagal.");
-                        }
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+                    loading.show();
                     
                 });
-                               
+                    
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpPost post = new HttpPost(ApiEndPoint.ADD_BARANG_SERVIS);
+
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("servis_nama",txNama.getText()));
+                params.add(new BasicNameValuePair("servis_harga",txHarga.getText().replace(",", "")));
+                params.add(new BasicNameValuePair("servis_kategori",comboKategori.getSelectionModel().getSelectedItem().toString()));
+
+                post.setEntity(new UrlEncodedFormEntity(params));
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(post, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response != null){
+
+                    if(!response.getBoolean("error")){
+                        Platform.runLater(()->{try {
+                            MsgBox.success(response.getString("pesan"));
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BarangController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+});
+                    }else{
+                        Platform.runLater(()->{try {
+                            MsgBox.error(response.getString("pesan"));
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BarangController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+});
+                    }                                        
+
+                    reset();
+
+                }else{
+                   Platform.runLater(()->{MsgBox.error("Koneksi internet gagal.");});
+                }
                 
                 return null;
             }
@@ -294,67 +299,71 @@ public class BarangController implements Initializable {
                 
                 Platform.runLater(()->{
                     
-                    try{
-                        
-                        loading.show();
-                        
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                        HttpPost post = new HttpPost(ApiEndPoint.UPDATE_BARANG_SERVIS);
+                    loading.show();
 
-                        ArrayList<NameValuePair> params = new ArrayList<>();
-                        params.add(new BasicNameValuePair("servis_id",barangId));
-                        params.add(new BasicNameValuePair("servis_nama",txNama.getText()));
-                        params.add(new BasicNameValuePair("servis_harga",txHarga.getText().replace(",", "")));
-                        params.add(new BasicNameValuePair("servis_kategori",comboKategori.getSelectionModel().getSelectedItem().toString()));
-
-                        post.setEntity(new UrlEncodedFormEntity(params));
-
-                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
-
-                            @Override
-                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                int status = response.getStatusLine().getStatusCode();
-                                if (status >= 200 && status < 300) {
-                                    HttpEntity entity = response.getEntity();
-                                    JSONObject json = null;
-                                    try {
-                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                    } catch (JSONException ex) {
-                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    return json;
-                                } else {
-                                    System.out.println("Unexpected response status: " + status);
-                                    return null;
-                                }
-                            }
-
-                         };
-
-                        JSONObject response = httpclient.execute(post, responseHandler);
-                        
-                        loading.dismiss();
-                        
-                        if(response != null){
-                    
-                            if(!response.getBoolean("error")){
-                                MsgBox.success(response.getString("pesan"));
-                            }else{
-                                MsgBox.error(response.getString("pesan"));
-                            }                                        
-
-                            reset();
-
-                        }else{
-                            MsgBox.error("Koneksi internet gagal.");
-                        }
-                        
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                    
                     
                 });
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpPost post = new HttpPost(ApiEndPoint.UPDATE_BARANG_SERVIS);
+
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("servis_id",barangId));
+                params.add(new BasicNameValuePair("servis_nama",txNama.getText()));
+                params.add(new BasicNameValuePair("servis_harga",txHarga.getText().replace(",", "")));
+                params.add(new BasicNameValuePair("servis_kategori",comboKategori.getSelectionModel().getSelectedItem().toString()));
+
+                post.setEntity(new UrlEncodedFormEntity(params));
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(post, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response != null){
+
+                    if(!response.getBoolean("error")){
+                        Platform.runLater(()->{try {
+                            MsgBox.success(response.getString("pesan"));
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BarangController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+});
+                    }else{
+                        Platform.runLater(()->{try {
+                            MsgBox.error(response.getString("pesan"));
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BarangController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+});
+                    }                                        
+
+                    reset();
+
+                }else{
+                    Platform.runLater(()->{MsgBox.error("Koneksi internet gagal.");});
+                }
                                 
                 return null;
             }
@@ -377,62 +386,68 @@ public class BarangController implements Initializable {
             protected Void call() throws Exception {
                 
                 Platform.runLater(()->{
-                    try{
-                        
-                        loading.show();
-                        
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                        HttpPost post = new HttpPost(ApiEndPoint.DELETE_BARANG_SERVIS);
+                    
+                    loading.show();
 
-                        ArrayList<NameValuePair> params = new ArrayList<>();
-                        params.add(new BasicNameValuePair("servis_id",barangId));
-
-                        post.setEntity(new UrlEncodedFormEntity(params));
-
-                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
-
-                            @Override
-                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                int status = response.getStatusLine().getStatusCode();
-                                if (status >= 200 && status < 300) {
-                                    HttpEntity entity = response.getEntity();
-                                    JSONObject json = null;
-                                    try {
-                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                    } catch (JSONException ex) {
-                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    return json;
-                                } else {
-                                    System.out.println("Unexpected response status: " + status);
-                                    return null;
-                                }
-                            }
-
-                         };
-
-                        JSONObject response = httpclient.execute(post, responseHandler);
-
-                        loading.dismiss();
-
-                        if(response != null){
-
-                            if(!response.getBoolean("error")){
-                                MsgBox.success(response.getString("pesan"));
-                            }else{
-                                MsgBox.error(response.getString("pesan"));
-                            }                                        
-
-                            reset();
-
-                        }else{
-                            MsgBox.error("Koneksi internet gagal.");
-                        }
-                        
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
                 });
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpPost post = new HttpPost(ApiEndPoint.DELETE_BARANG_SERVIS);
+
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("servis_id",barangId));
+
+                post.setEntity(new UrlEncodedFormEntity(params));
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(post, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response != null){
+
+                    if(!response.getBoolean("error")){
+                        Platform.runLater(()->{try {
+                            MsgBox.success(response.getString("pesan"));
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BarangController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+});
+                    }else{
+                        Platform.runLater(()->{try {
+                            MsgBox.error(response.getString("pesan"));
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BarangController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+});
+                    }                                        
+
+                    reset();
+
+                }else{
+                    Platform.runLater(()->{MsgBox.error("Koneksi internet gagal.");});
+                }
                                 
                 return null;
             }
@@ -455,57 +470,54 @@ public class BarangController implements Initializable {
             protected Void call() throws Exception {
                 
                 Platform.runLater(()->{
-                    try{
-                        
-                        loading.show();
-                        
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                        HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page=1");
-
-                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
-
-                            @Override
-                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                int status = response.getStatusLine().getStatusCode();
-                                if (status >= 200 && status < 300) {
-                                    HttpEntity entity = response.getEntity();
-                                    JSONObject json = null;
-                                    try {
-                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                    } catch (JSONException ex) {
-                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    return json;
-                                } else {
-                                    System.out.println("Unexpected response status: " + status);
-                                    return null;
-                                }
-                            }
-
-                         };
-
-                        JSONObject response = httpclient.execute(get, responseHandler);
-
-                        loading.dismiss();
-
-                        if(response != null){
-
-                            String total = response.getString("total");
-
-                            paging.setPageCount(Integer.parseInt(total) / 10 + 1);
-                            paging.setCurrentPageIndex(0);
-
-                            setTableBarang(1);
-
-                        }else{
-                            MsgBox.error("Koneksi internet gagal.");
-                        }
-                        
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+                    
+                    loading.show();
+                   
                 });
                 
+                 CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page=1");
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(get, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response != null){
+
+                    String total = response.getString("total");
+
+                    Platform.runLater(()->{
+                        paging.setPageCount(Integer.parseInt(total) / 10 + 1);
+                        paging.setCurrentPageIndex(0);
+
+                        setTableBarang(1);
+                    });
+
+                }else{
+                    Platform.runLater(()->{MsgBox.error("Koneksi internet gagal.");});
+                }
                                 
                 return null;
             }
@@ -529,88 +541,84 @@ public class BarangController implements Initializable {
                 
                 Platform.runLater(()->{
                 
-                   try{
-                        TableColumn id = new TableColumn("ID");
-                        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                        id.setMaxWidth(0);
-                        id.setMinWidth(0);
+                    TableColumn id = new TableColumn("ID");
+                    id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    id.setMaxWidth(0);
+                    id.setMinWidth(0);
 
-                        TableColumn nama = new TableColumn("Nama");
-                        nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-                        nama.setMinWidth(300);
+                    TableColumn nama = new TableColumn("Nama");
+                    nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
+                    nama.setMinWidth(300);
 
-                        TableColumn harga = new TableColumn("Harga");
-                        harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
-                        harga.setMinWidth(100);
+                    TableColumn harga = new TableColumn("Harga");
+                    harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
+                    harga.setMinWidth(100);
 
-                        TableColumn kategori = new TableColumn("Kategori");
-                        kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
-                        kategori.setMinWidth(50);
+                    TableColumn kategori = new TableColumn("Kategori");
+                    kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
+                    kategori.setMinWidth(50);
 
-                        tableBarang.getColumns().clear();
-                        tableBarang.getItems().clear();
-                        tableBarang.getColumns().addAll(id,nama,harga,kategori);
+                    tableBarang.getColumns().clear();
+                    tableBarang.getItems().clear();
+                    tableBarang.getColumns().addAll(id,nama,harga,kategori);
 
-                        loading.show();
-
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                        HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page="+page);
-
-                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
-
-                            @Override
-                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                int status = response.getStatusLine().getStatusCode();
-                                if (status >= 200 && status < 300) {
-                                    HttpEntity entity = response.getEntity();
-                                    JSONObject json = null;
-                                    try {
-                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                    } catch (JSONException ex) {
-                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    return json;
-                                } else {
-                                    System.out.println("Unexpected response status: " + status);
-                                    return null;
-                                }
-                            }
-
-                         };
-
-                        JSONObject response = httpclient.execute(get, responseHandler);
-
-                        loading.dismiss();
-
-                        if(response != null){
-                            JSONArray daftarBarangServis = response.getJSONArray("daftar_barang_servis");
-
-                            ObservableList<Barang> data = FXCollections.observableArrayList();
-
-                            for(int i=0; i<daftarBarangServis.length(); i++){
-
-                                String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
-                                String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
-                                String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
-                                String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
-
-                                data.add(
-                                        new Barang(idj,namaj,"Rp. "+StringFex.numberWithComaOnly(hargaj),kategorij)
-                                );
-
-                            }
-
-                            tableBarang.setItems(data);
-
-                        }else{
-                            MsgBox.error("Koneksi internet gagal.");
-                        }            
-                    }catch(Exception e){
-                            e.printStackTrace();
-                    }
+                    loading.show();
+                    
                 });
                    
-                                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page="+page);
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(get, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response != null){
+                    JSONArray daftarBarangServis = response.getJSONArray("daftar_barang_servis");
+
+                    ObservableList<Barang> data = FXCollections.observableArrayList();
+
+                    for(int i=0; i<daftarBarangServis.length(); i++){
+
+                        String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
+                        String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
+                        String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
+                        String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
+
+                        data.add(
+                                new Barang(idj,namaj,"Rp. "+StringFex.numberWithComaOnly(hargaj),kategorij)
+                        );
+
+                    }
+
+                    Platform.runLater(()->{tableBarang.setItems(data);});
+
+                }else{
+                    Platform.runLater(()->{MsgBox.error("Koneksi internet gagal.");});
+                }    
+                
                 return null;
             }
             
@@ -631,85 +639,80 @@ public class BarangController implements Initializable {
                 
                 Platform.runLater(()->{
                 
-                    try{
-                        
-                        TableColumn id = new TableColumn("ID");
-                        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                        id.setMaxWidth(0);
-                        id.setMinWidth(0);
+                    TableColumn id = new TableColumn("ID");
+                    id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    id.setMaxWidth(0);
+                    id.setMinWidth(0);
 
-                        TableColumn nama = new TableColumn("Nama");
-                        nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-                        nama.setMinWidth(300);
+                    TableColumn nama = new TableColumn("Nama");
+                    nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
+                    nama.setMinWidth(300);
 
-                        TableColumn harga = new TableColumn("Harga");
-                        harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
-                        harga.setMinWidth(100);
+                    TableColumn harga = new TableColumn("Harga");
+                    harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
+                    harga.setMinWidth(100);
 
-                        TableColumn kategori = new TableColumn("Kategori");
-                        kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
-                        kategori.setMinWidth(50);
+                    TableColumn kategori = new TableColumn("Kategori");
+                    kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
+                    kategori.setMinWidth(50);
 
-                        tableBarang.getColumns().clear();
-                        tableBarang.getItems().clear();
-                        tableBarang.getColumns().addAll(id,nama,harga,kategori);
-                        
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                        HttpGet get = new HttpGet(ApiEndPoint.SEARCH_BARANG_SERVIS+"&q="+q);
-
-                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
-
-                            @Override
-                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                int status = response.getStatusLine().getStatusCode();
-                                if (status >= 200 && status < 300) {
-                                    HttpEntity entity = response.getEntity();
-                                    JSONObject json = null;
-                                    try {
-                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                    } catch (JSONException ex) {
-                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    return json;
-                                } else {
-                                    System.out.println("Unexpected response status: " + status);
-                                    return null;
-                                }
-                            }
-
-                         };
-
-                        JSONObject response = httpclient.execute(get, responseHandler);
-
-                        if(response != null){
-                            JSONArray daftarBarangServis = response.getJSONArray("daftar_barang_servis");
-
-                            ObservableList<Barang> data = FXCollections.observableArrayList();
-
-                            for(int i=0; i<daftarBarangServis.length(); i++){
-
-                                String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
-                                String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
-                                String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
-                                String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
-
-                                data.add(
-                                        new Barang(idj,namaj,"Rp. "+StringFex.numberWithComaOnly(hargaj),kategorij)
-                                );
-
-                            }
-
-                            tableBarang.setItems(data);
-
-                        }else{
-                            MsgBox.error("Koneksi internet gagal.");
-                        }                 
-                        
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                
+                    tableBarang.getColumns().clear();
+                    tableBarang.getItems().clear();
+                    tableBarang.getColumns().addAll(id,nama,harga,kategori);
+                    
+                    
                 });
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpGet get = new HttpGet(ApiEndPoint.SEARCH_BARANG_SERVIS+"&q="+q);
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(get, responseHandler);
+
+                if(response != null){
+                    JSONArray daftarBarangServis = response.getJSONArray("daftar_barang_servis");
+
+                    ObservableList<Barang> data = FXCollections.observableArrayList();
+
+                    for(int i=0; i<daftarBarangServis.length(); i++){
+
+                        String idj = daftarBarangServis.getJSONObject(i).getString("barang_servis_id");
+                        String namaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_nama");
+                        String hargaj = daftarBarangServis.getJSONObject(i).getString("barang_servis_harga");
+                        String kategorij = daftarBarangServis.getJSONObject(i).getString("barang_servis_kategori");
+
+                        data.add(
+                                new Barang(idj,namaj,"Rp. "+StringFex.numberWithComaOnly(hargaj),kategorij)
+                        );
+
+                    }
+
+                    Platform.runLater(()->{tableBarang.setItems(data);});
+
+                }else{
+                    Platform.runLater(()->{MsgBox.error("Koneksi internet gagal.");});
+                }   
                 
                 return null;
             }

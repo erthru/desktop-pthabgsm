@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="675.0" prefWidth="992.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erthru.pthajratabadiservismobil.ui.login.LoginController">
+   <children>
+      <AnchorPane layoutX="17.0" layoutY="17.0" prefHeight="517.0" prefWidth="319.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="297.0" fitWidth="318.0" layoutY="408.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <image>
+                  <Image url="@../../assets/img_car.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="59.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="68.0">
+               <image>
+                  <Image url="@../../assets/img_hajrat_vertical.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="399.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="222.0" prefWidth="363.0" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="46.0">
+         <children>
+            <Label alignment="TOP_LEFT" text="LOGIN" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="Arial Bold" size="34.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txEmail" prefHeight="35.0" prefWidth="302.0" promptText="Email" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
+            <PasswordField fx:id="txPassword" prefHeight="35.0" prefWidth="300.0" promptText="Password" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0" />
+            <Button fx:id="btnLogin" layoutX="16.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnLoginClicked" style="-fx-background-color: #27ae60;" text="LOGIN" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="174.0" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="903.0" layoutY="613.0" text="V.1.0" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0" />
+   </children>
+</AnchorPane>

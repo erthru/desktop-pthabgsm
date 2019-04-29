@@ -114,112 +114,108 @@ public class ViewSparePartController implements Initializable {
             protected Void call() throws Exception {
                 
                 Platform.runLater(()->{
-                    try{
+                    
+                    loading.show();
                         
-                        loading.show();
-                        
-                        TableColumn id = new TableColumn("ID");
-                        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                        id.setMaxWidth(0);
-                        id.setMinWidth(0);
-                        
-                        TableColumn nama = new TableColumn("Nama Barang");
-                        nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-                        nama.setMinWidth(100);
-                        
-                        TableColumn harga = new TableColumn("Harga Barang");
-                        harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
-                        harga.setMinWidth(100);
-                        
-                        TableColumn kategori = new TableColumn("Kategori");
-                        kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
-                        kategori.setMinWidth(100);
-                        
-                        TableColumn status = new TableColumn("Status");
-                        status.setCellValueFactory(new PropertyValueFactory<>("status"));
-                        status.setMinWidth(100);
-                        
-                        tableItem.getColumns().clear();
-                        tableItem.getItems().clear();
-                        tableItem.getColumns().addAll(id,nama,harga,kategori,status);
-                        
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                        HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BOOKING_ITEM+"&booking_id="+BOOKING_ID);
+                    TableColumn id = new TableColumn("ID");
+                    id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    id.setMaxWidth(0);
+                    id.setMinWidth(0);
 
-                        ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+                    TableColumn nama = new TableColumn("Nama Barang");
+                    nama.setCellValueFactory(new PropertyValueFactory<>("nama"));
+                    nama.setMinWidth(100);
 
-                            @Override
-                            public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                int status = response.getStatusLine().getStatusCode();
-                                if (status >= 200 && status < 300) {
-                                    HttpEntity entity = response.getEntity();
-                                    JSONObject json = null;
-                                    try {
-                                        json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                    } catch (JSONException ex) {
-                                        Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    return json;
-                                } else {
-                                    System.out.println("Unexpected response status: " + status);
-                                    return null;
-                                }
-                            }
+                    TableColumn harga = new TableColumn("Harga Barang");
+                    harga.setCellValueFactory(new PropertyValueFactory<>("harga"));
+                    harga.setMinWidth(100);
 
-                         };
+                    TableColumn kategori = new TableColumn("Kategori");
+                    kategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
+                    kategori.setMinWidth(100);
 
-                        JSONObject response = httpclient.execute(get, responseHandler);
-                        
-                        loading.dismiss();
-                        
-                        if(response != null){
-                            
-                            ObservableList<Item> data = FXCollections.observableArrayList();
-                            JSONArray bookingItem = response.getJSONArray("booking_item");
-                            
-                            for(int i=0; i<bookingItem.length(); i++){
-                                
-                                String id1 = bookingItem.getJSONObject(i).getString("booking_item_id");
-                                String nama1 = bookingItem.getJSONObject(i).getString("barang_servis_nama");
-                                String harga1 = bookingItem.getJSONObject(i).getString("barang_servis_harga");
-                                String kategori1 = bookingItem.getJSONObject(i).getString("barang_servis_kategori");
-                                String status1 = bookingItem.getJSONObject(i).getString("booking_item_status");
-                                
-                                data.add(new Item(
-                                        id1,nama1,harga1,kategori1,status1
-                                ));
-                                
-                            }
-                            
-                            tableItem.getItems().addAll(data);
-                            
-                            int totalFromTable = 0;
-                            
-                            for(int x=0; x<data.size(); x++){
-                                
-                                if(data.get(x).getStatus().equals("DIPILIH")){
-                                    totalFromTable += Integer.parseInt(data.get(x).getHarga());
-                                }
-                                
-                            }
-                            
-                            totalFromTable += Integer.parseInt(BOOKING_BIAYA);
-                            
-                            lbTotal.setText("Rp. "+StringFex.strToRp(String.valueOf(totalFromTable))+" (Termasuk biaya servis: Rp."+StringFex.strToRp(BOOKING_BIAYA)+")");
-                            
-                        }else{
-                            
-                            MsgBox.error("Koneksi internet gagal.");
-                            
-                            Stage stg = (Stage) btnSet.getScene().getWindow();
-                            stg.close();
-                            
-                        }
-                        
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+                    TableColumn status = new TableColumn("Status");
+                    status.setCellValueFactory(new PropertyValueFactory<>("status"));
+                    status.setMinWidth(100);
+
+                    tableItem.getColumns().clear();
+                    tableItem.getItems().clear();
+                    tableItem.getColumns().addAll(id,nama,harga,kategori,status);
+                    
                 });
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BOOKING_ITEM+"&booking_id="+BOOKING_ID);
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(get, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response != null){
+
+                    ObservableList<Item> data = FXCollections.observableArrayList();
+                    JSONArray bookingItem = response.getJSONArray("booking_item");
+
+                    for(int i=0; i<bookingItem.length(); i++){
+
+                        String id1 = bookingItem.getJSONObject(i).getString("booking_item_id");
+                        String nama1 = bookingItem.getJSONObject(i).getString("barang_servis_nama");
+                        String harga1 = bookingItem.getJSONObject(i).getString("barang_servis_harga");
+                        String kategori1 = bookingItem.getJSONObject(i).getString("barang_servis_kategori");
+                        String status1 = bookingItem.getJSONObject(i).getString("booking_item_status");
+
+                        data.add(new Item(
+                                id1,nama1,harga1,kategori1,status1
+                        ));
+
+                    }
+
+                    Platform.runLater(()->{tableItem.getItems().addAll(data);});
+
+                    int totalFromTable = 0;
+
+                    for(int x=0; x<data.size(); x++){
+
+                        if(data.get(x).getStatus().equals("DIPILIH")){
+                            totalFromTable += Integer.parseInt(data.get(x).getHarga());
+                        }
+
+                    }
+
+                    totalFromTable += Integer.parseInt(BOOKING_BIAYA);
+                    int totalHasil = totalFromTable;
+                    Platform.runLater(()->{lbTotal.setText("Rp. "+StringFex.strToRp(String.valueOf(totalHasil))+" (Termasuk biaya servis: Rp."+StringFex.strToRp(BOOKING_BIAYA)+")");});
+
+                }else{
+
+                    Platform.runLater(()->{MsgBox.error("Koneksi internet gagal.");
+
+                    Stage stg = (Stage) btnSet.getScene().getWindow();
+                    stg.close();});
+
+                }
                 
                 return null;
             }
@@ -273,65 +269,63 @@ public class ViewSparePartController implements Initializable {
                 
                 Platform.runLater(()->{
                 
-                    try{
-                        
-                        loading.show();
-                        
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                            HttpPost post = new HttpPost(ApiEndPoint.DALAM_PENGERJAAM_BOOKING);
-
-                            ArrayList<NameValuePair> params = new ArrayList<>();
-                            params.add(new BasicNameValuePair("booking_id",BOOKING_ID));
-                            
-                            post.setEntity(new UrlEncodedFormEntity(params));
-
-                            ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
-
-                                @Override
-                                public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                    int status = response.getStatusLine().getStatusCode();
-                                    if (status >= 200 && status < 300) {
-                                        HttpEntity entity = response.getEntity();
-                                        JSONObject json = null;
-                                        try {
-                                            json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                        } catch (JSONException ex) {
-                                            Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
-                                        return json;
-                                    } else {
-                                        System.out.println("Unexpected response status: " + status);
-                                        return null;
-                                    }
-                                }
-
-                             };
-
-                            JSONObject response = httpclient.execute(post, responseHandler);
-                            
-                            loading.dismiss();
-                            
-                            if(response != null){
-                                
-                                String pesan = response.getString("pesan");
-                                MsgBox.success(pesan);
-                                
-                                parent1.setTableStatus();
-                                parent1.loadBookingData();
-                                parent.setPaging();
-                                
-                                Stage stg = (Stage) btnSet.getScene().getWindow();
-                                stg.close();
-                                
-                            }else{
-                                MsgBox.error("Koneksi interner gagal.");
-                            }
-                        
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+                    loading.show();
                     
                 });
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpPost post = new HttpPost(ApiEndPoint.DALAM_PENGERJAAM_BOOKING);
+
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("booking_id",BOOKING_ID));
+
+                post.setEntity(new UrlEncodedFormEntity(params));
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(post, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response != null){
+
+                   String pesan = response.getString("pesan");
+                   Platform.runLater(()->{
+
+                        MsgBox.success(pesan);
+
+                        parent1.setTableStatus();
+                        parent1.loadBookingData();
+                        parent.setPaging();
+
+                        Stage stg = (Stage) btnSet.getScene().getWindow();
+                        stg.close();
+
+                   });
+
+                }else{
+                    Platform.runLater(()->{MsgBox.error("Koneksi interner gagal.");});
+                }
                 
                 return null;
             }
@@ -352,65 +346,61 @@ public class ViewSparePartController implements Initializable {
                 
                 Platform.runLater(()->{
                 
-                    try{
-                        
-                        loading.show();
-                        
-                        CloseableHttpClient httpclient = HttpClients.createDefault();
-                            HttpPost post = new HttpPost(ApiEndPoint.SELESAI_BOOKING);
-
-                            ArrayList<NameValuePair> params = new ArrayList<>();
-                            params.add(new BasicNameValuePair("booking_id",BOOKING_ID));
-                            
-                            post.setEntity(new UrlEncodedFormEntity(params));
-
-                            ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
-
-                                @Override
-                                public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                    int status = response.getStatusLine().getStatusCode();
-                                    if (status >= 200 && status < 300) {
-                                        HttpEntity entity = response.getEntity();
-                                        JSONObject json = null;
-                                        try {
-                                            json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
-                                        } catch (JSONException ex) {
-                                            Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
-                                        return json;
-                                    } else {
-                                        System.out.println("Unexpected response status: " + status);
-                                        return null;
-                                    }
-                                }
-
-                             };
-
-                            JSONObject response = httpclient.execute(post, responseHandler);
-                            
-                            loading.dismiss();
-                            
-                            if(response != null){
-                                
-                                String pesan = response.getString("pesan");
-                                MsgBox.success(pesan);
-                                
-                                parent1.setTableStatus();
-                                parent1.loadBookingData();
-                                parent.setPaging();
-                                
-                                Stage stg = (Stage) btnSet.getScene().getWindow();
-                                stg.close();
-                                
-                            }else{
-                                MsgBox.error("Koneksi interner gagal.");
-                            }
-                        
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+                    loading.show();
                     
                 });
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpPost post = new HttpPost(ApiEndPoint.SELESAI_BOOKING);
+
+                ArrayList<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("booking_id",BOOKING_ID));
+
+                post.setEntity(new UrlEncodedFormEntity(params));
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(post, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response != null){
+
+                    String pesan = response.getString("pesan");
+                    Platform.runLater(()->{
+                        MsgBox.success(pesan);
+
+                        parent1.setTableStatus();
+                        parent1.loadBookingData();
+                        parent.setPaging();
+
+                        Stage stg = (Stage) btnSet.getScene().getWindow();
+                        stg.close();
+                    });
+
+                }else{
+                    Platform.runLater(()->{MsgBox.error("Koneksi interner gagal.");});
+                }
                 
                 return null;
             }
