@@ -18,6 +18,7 @@ public class ApiEndPoint {
     public static String DELETE_BARANG_SERVIS = "http://localhost/anows/api_pthabgsm/app.php?mod=delete_barang_servis";
     public static String USER_ALL = "http://localhost/anows/api_pthabgsm/app.php?mod=user_all";
     public static String USER_SEARCH = "http://localhost/anows/api_pthabgsm/app.php?mod=user_search";
+    public static String USER_DELETE = "http://localhost/anows/api_pthabgsm/app.php?mod=user_delete";
     public static String DAFTAR_BOOKING_ALL = "http://localhost/anows/api_pthabgsm/app.php?mod=daftar_booking_all";
     public static String SEARCH_BOOKING_ALL = "http://localhost/anows/api_pthabgsm/app.php?mod=search_booking_all";
     public static String DAFTAR_BOOKING_ALL_DATE_FILTER = "http://localhost/anows/api_pthabgsm/app.php?mod=daftar_booking_all_date_filter";

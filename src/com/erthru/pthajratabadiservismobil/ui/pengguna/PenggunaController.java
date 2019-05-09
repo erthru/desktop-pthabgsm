@@ -426,4 +426,76 @@ public class PenggunaController implements Initializable {
         
     }
     
+    @FXML
+    private void tablePenggunaClicked(){
+        
+        if(tableUser.getSelectionModel().getSelectedItem() != null){
+            int ok = MsgBox.confirm("Hapus data pengguna ini ?");
+        
+            if(ok == 1){
+                Pengguna row = (Pengguna) tableUser.getSelectionModel().getSelectedItem();
+                deletePengguna(row.getId());
+            }
+        }
+        
+        
+    }
+    
+    private void deletePengguna(String userId){
+        
+        class Work extends Task<Void>{
+            
+            Loading loading = new Loading();
+
+            @Override
+            protected Void call() throws Exception {
+                
+                Platform.runLater(()->{loading.show();});
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpGet get = new HttpGet(ApiEndPoint.USER_DELETE+"&user_id="+userId);
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(get, responseHandler);
+                
+                if(response != null){
+                    if(!response.getBoolean("error")){
+                        String pesan = response.getString("pesan");
+                        Platform.runLater(()->{MsgBox.success(pesan);});
+                        setPaging();
+                    }
+                }
+                
+                Platform.runLater(()->{loading.dismiss();});
+                
+                return null;
+            }
+            
+        }
+        
+        new Thread(new Work()).start();
+        
+    }
+    
 }
