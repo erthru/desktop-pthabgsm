@@ -49,11 +49,24 @@ public class BerandaController implements Initializable {
     @FXML
     private Label lbPenggunaAktif;
     
+    @FXML
+    private Label lbPesananHari;
+    
+    @FXML
+    private Label lbPesananMinggu;
+    
+    @FXML
+    private Label lbPesananBulan;
+    
+    @FXML
+    private Label lbPesananTahun;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadTotalBarang();
         loadTotalPesanan();
         loadTotalPengguna();
+        loadPesananReport();
     }    
     
     private void loadTotalBarang(){
@@ -230,6 +243,75 @@ public class BerandaController implements Initializable {
                 }else{
                     int pesanan = response.getInt("total");
                     Platform.runLater(()->{lbTotalPesanan.setText(""+pesanan);});
+                }
+                
+                return null;
+            }
+            
+        }
+        
+        Work work = new Work();
+        Thread t = new Thread(work);
+        t.start();
+        
+    }
+     
+     private void loadPesananReport(){
+        
+        class Work extends Task<Void>{
+
+            Loading loading = new Loading();
+            
+            @Override
+            protected Void call() throws Exception {
+                
+                Platform.runLater(()->{
+                    loading.show();
+                });
+                
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                HttpGet get = new HttpGet(ApiEndPoint.ADMIN_HOME_REPORT);
+
+                ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
+
+                    @Override
+                    public JSONObject handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                        int status = response.getStatusLine().getStatusCode();
+                        System.out.print(status);
+                        if (status >= 200 && status < 300) {
+                            HttpEntity entity = response.getEntity();
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return json;
+                        } else {
+                            System.out.println("Unexpected response status: " + status);
+                            return null;
+                        }
+                    }
+
+                 };
+
+                JSONObject response = httpclient.execute(get, responseHandler);
+
+                Platform.runLater(()->{loading.dismiss();});
+
+                if(response == null){
+                   Platform.runLater(()->{ MsgBox.error("Koneksi internet gagal.");});
+                }else{
+                    String today = response.getString("booking_hari_ini");
+                    String month = response.getString("booking_bulan_ini");
+                    String year = response.getString("booking_tahun_ini");
+                    String week = response.getString("booking_minggu_ini");
+                    Platform.runLater(()->{
+                        lbPesananHari.setText(""+today);
+                        lbPesananMinggu.setText(""+week);
+                        lbPesananBulan.setText(""+month);
+                        lbPesananTahun.setText(""+year);
+                    });
                 }
                 
                 return null;

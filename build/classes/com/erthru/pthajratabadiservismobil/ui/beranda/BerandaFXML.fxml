@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="454.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erthru.pthajratabadiservismobil.ui.beranda.BerandaController">
@@ -13,61 +16,187 @@
             <Font name="Arial Bold" size="22.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="26.0" layoutY="63.0" prefHeight="106.0" prefWidth="551.0" style="-fx-background-color: #27ae60;" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="68.0">
-         <children>
-            <Label layoutX="23.0" layoutY="29.0" text="Total Barang" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
-               </font></Label>
-            <Label fx:id="lbTotalBarang" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
-               <font>
-                  <Font name="Arial Bold" size="31.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <image>
-                  <Image url="@../../assets/img_brg.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="36.0" layoutY="73.0" prefHeight="106.0" prefWidth="551.0" style="-fx-background-color: #2980b9;" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="196.0">
-         <children>
-            <Label layoutX="23.0" layoutY="29.0" text="Total Pesanan" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbTotalPesanan" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
-               <font>
-                  <Font name="Arial Bold" size="31.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0">
-               <image>
-                  <Image url="@../../assets/img_order.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="46.0" layoutY="83.0" prefHeight="106.0" prefWidth="551.0" style="-fx-background-color: #d35400;" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="326.0">
-         <children>
-            <Label layoutX="23.0" layoutY="29.0" text="Pengguna Terdaftar" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbPenggunaAktif" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
-               <font>
-                  <Font name="Arial Bold" size="31.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <image>
-                  <Image url="@../../assets/img_user.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
+      <ScrollPane fitToWidth="true" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="68.0">
+        <content>
+          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #FFFFFF;">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="- Total">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane style="-fx-background-color: #27ae60;" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label layoutX="23.0" layoutY="29.0" text="Total Barang" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbTotalBarang" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="31.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+                                 <image>
+                                    <Image url="@../../assets/img_brg.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane style="-fx-background-color: #2980b9;" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label layoutX="23.0" layoutY="29.0" text="Total Pesanan" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbTotalPesanan" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="31.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+                                 <image>
+                                    <Image url="@../../assets/img_order.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane style="-fx-background-color: #d35400;" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label layoutX="23.0" layoutY="29.0" text="Pengguna Terdaftar" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbPenggunaAktif" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="31.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+                                 <image>
+                                    <Image url="@../../assets/img_user.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <Label text="- Pesanan">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <AnchorPane style="-fx-background-color: #27ae60;">
+                           <children>
+                              <Label layoutX="23.0" layoutY="29.0" text="Pesanan Hari Ini" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbPesananHari" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="31.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+                                 <image>
+                                    <Image url="@../../assets/img_date.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane style="-fx-background-color: #2980b9;">
+                           <children>
+                              <Label layoutX="23.0" layoutY="29.0" text="Pesanan Minggu Ini" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbPesananMinggu" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="31.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+                                 <image>
+                                    <Image url="@../../assets/img_date.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane style="-fx-background-color: #d35400;">
+                           <children>
+                              <Label layoutX="23.0" layoutY="29.0" text="Pesanan Bulan Ini" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbPesananBulan" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="31.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+                                 <image>
+                                    <Image url="@../../assets/img_date.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane style="-fx-background-color: #27ae60;">
+                           <children>
+                              <Label layoutX="23.0" layoutY="29.0" text="Pesanan Tahun Ini" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbPesananTahun" layoutX="33.0" layoutY="39.0" text="0" textFill="WHITE" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="46.0">
+                                 <font>
+                                    <Font name="Arial Bold" size="31.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="81.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+                                 <image>
+                                    <Image url="@../../assets/img_date.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets right="8.0" />
+               </padding>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

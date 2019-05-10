@@ -278,9 +278,11 @@ public class PesananController implements Initializable {
                     
                 });
                
+                System.out.println("debug table 1");
                 CloseableHttpClient httpclient = HttpClients.createDefault();
                 HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BOOKING_ALL+"&page="+page);
 
+                System.out.println("debug table 2");
                 ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
 
                     @Override
@@ -303,16 +305,19 @@ public class PesananController implements Initializable {
 
                  };
 
+                System.out.println("debug table 3");
                 JSONObject response = httpclient.execute(get, responseHandler);
 
                 Platform.runLater(()->{loading.dismiss();});
 
                 if(response != null){
 
+                    System.out.println("debug table response not null");
                     ObservableList<Pesanan> data = FXCollections.observableArrayList();
 
                     JSONArray dataBooking = response.getJSONArray("data_booking");
 
+                    System.out.println("fetching data response "+dataBooking.toString());
                     for(int i=0; i<dataBooking.length(); i++){
 
                         String bookingId = dataBooking.getJSONObject(i).getString("booking_id");
@@ -328,9 +333,12 @@ public class PesananController implements Initializable {
                                 lastStatus1,
                                 StringFex.dateMax(createdAt1)
                         ));
+                        
+                        System.out.println(data.size());
 
                     }
-
+                    
+                    System.out.println("printing response");
                     Platform.runLater(()->{tablePesanan.getItems().addAll(data);});
 
                 }else{

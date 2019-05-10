@@ -31,5 +31,6 @@ public class ApiEndPoint {
     public static String SELESAI_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=selesai_booking";
     public static String DITOLAK_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=ditolak_booking";
     public static String LOGIN_ADMIN = "http://localhost/anows/api_pthabgsm/app.php?mod=login_admin";
+    public static String ADMIN_HOME_REPORT = "http://localhost/anows/api_pthabgsm/app.php?mod=admin_home_report";
     
 }
