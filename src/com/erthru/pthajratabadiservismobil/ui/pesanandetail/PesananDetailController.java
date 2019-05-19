@@ -6,8 +6,10 @@
 package com.erthru.pthajratabadiservismobil.ui.pesanandetail;
 
 import com.erthru.pthajratabadiservismobil.ui.beranda.BerandaController;
+import com.erthru.pthajratabadiservismobil.ui.loading.LoadingController;
 import com.erthru.pthajratabadiservismobil.ui.pengguna.PenggunaController;
 import com.erthru.pthajratabadiservismobil.ui.pesanan.PesananController;
+import com.erthru.pthajratabadiservismobil.ui.pesanandetailditolakdialog.PesananDetailDitolakController;
 import com.erthru.pthajratabadiservismobil.ui.setsparepartpesanan.SetSparepartPesananController;
 import com.erthru.pthajratabadiservismobil.ui.viewsparepart.ViewSparePartController;
 import com.erthru.pthajratabadiservismobil.utils.ApiEndPoint;
@@ -36,6 +38,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -475,9 +478,10 @@ public class PesananDetailController implements Initializable {
                             btnTolak.setDisable(true);
                         }else if(lastStatus.equals("DITOLAK")){
                             btnSet.setText("LIHAT SPAREPART YANG DIPILIH");
-                            lbBottomKet.setText("Pesanan ini telah ditolak");
+                            lbBottomKet.setText("Memuat alasan... ");
                             btnSet.setVisible(false);
                             btnTolak.setVisible(false);
+                            loadKeteranganDitolak();
                         }
 
                     });
@@ -578,26 +582,45 @@ public class PesananDetailController implements Initializable {
     }
     
     private void tolakPesanan(){
+        
+        try{
+            Stage stage = new Stage();
+        
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/pesanandetailditolakdialog/PesananDetailDitolakFXML.fxml"));
+            Parent root = loader.load();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Konfirmasi tolak pesanan");
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            
+            PesananDetailDitolakController child = loader.getController();
+            child.setParent(this,parent);
+            PesananDetailDitolakController.BOOKING_ID = BOOKING_ID;
+            
+            stage.show();
+            
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+    }
+    
+    public void dispose(){
+        Stage stg = (Stage) btnSet.getScene().getWindow();
+        stg.close();
+    }
+    
+    public void loadKeteranganDitolak(){
+        
         class Work extends Task<Void>{
 
-            Loading loading = new Loading();
-            
             @Override
             protected Void call() throws Exception {
                 
-                Platform.runLater(()->{
-                    
-                    loading.show();
-                    
-                });
-                
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpPost post = new HttpPost(ApiEndPoint.DITOLAK_BOOKING);
-
-                ArrayList<NameValuePair> params = new ArrayList<>();
-                params.add(new BasicNameValuePair("booking_id",BOOKING_ID));
-
-                post.setEntity(new UrlEncodedFormEntity(params));
+                HttpGet get = new HttpGet(ApiEndPoint.BOOKING_DITOLAK+"&booking_id="+BOOKING_ID);
 
                 ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
 
@@ -610,7 +633,7 @@ public class PesananDetailController implements Initializable {
                             try {
                                 json = new JSONObject(entity != null ? EntityUtils.toString(entity) : null);
                             } catch (JSONException ex) {
-                                Logger.getLogger(BerandaController.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(PenggunaController.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             return json;
                         } else {
@@ -621,10 +644,8 @@ public class PesananDetailController implements Initializable {
 
                  };
 
-                JSONObject response = httpclient.execute(post, responseHandler);
-
-                Platform.runLater(()->{loading.dismiss();});
-
+                JSONObject response = httpclient.execute(get, responseHandler);
+                
                 if(response != null){
 
                     Boolean error = response.getBoolean("error");
@@ -632,12 +653,11 @@ public class PesananDetailController implements Initializable {
 
                     if(!error){
 
-                        Platform.runLater(()->{MsgBox.success(pesan);
-
-                        parent.setPaging();
-
-                        Stage stg = (Stage) btnSet.getScene().getWindow();
-                        stg.close();});
+                        Platform.runLater(()->{
+                        
+                            lbBottomKet.setText("Pesanan ini telah ditolak dengan alasan: "+pesan);
+                            
+                        });
 
                     }else{
                        Platform.runLater(()->{ MsgBox.error(pesan); });
@@ -651,6 +671,7 @@ public class PesananDetailController implements Initializable {
         }
         
         new Thread(new Work()).start();
+        
     }
     
     public void setParent(PesananController parent){

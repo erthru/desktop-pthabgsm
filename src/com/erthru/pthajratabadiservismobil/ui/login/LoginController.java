@@ -10,6 +10,7 @@ import static com.erthru.pthajratabadiservismobil.ui.setsparepartpesanan.SetSpar
 import com.erthru.pthajratabadiservismobil.utils.ApiEndPoint;
 import com.erthru.pthajratabadiservismobil.utils.Loading;
 import com.erthru.pthajratabadiservismobil.utils.MsgBox;
+import com.erthru.pthajratabadiservismobil.utils.PreferenceUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -63,7 +64,32 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        if(new PreferenceUser().isLogin()){
+            Platform.runLater(()->{
+                        
+                Stage stage = new Stage();
+                FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("/com/erthru/pthajratabadiservismobil/ui/main/MainFXML.fxml"));
+                Parent root;
+
+                try {
+                    root = loader.load();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Main");
+                    stage.setMaximized(true);
+                    stage.setResizable(true);
+
+                    root.requestFocus();
+                    stage.show();
+
+                    Stage stg = (Stage) btnLogin.getScene().getWindow();
+                    stg.close();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            });
+        }
     }    
     
     @FXML
@@ -123,6 +149,8 @@ public class LoginController implements Initializable {
                     String pesan = response.getString("pesan");
                     
                     if(!error){
+                        
+                        new PreferenceUser().create();
                         
                         Platform.runLater(()->{
                         

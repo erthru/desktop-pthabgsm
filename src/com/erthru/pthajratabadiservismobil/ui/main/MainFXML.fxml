@@ -48,6 +48,22 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
+                  <Button fx:id="btnLaporan" mnemonicParsing="false" onAction="#btnLaporanClicked" prefHeight="32.0" prefWidth="159.0" style="-fx-background-color: #c0392b;" text="LAPORAN" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets top="16.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogoutClicked" prefHeight="32.0" prefWidth="159.0" style="-fx-background-color: #c0392b;" text="LOGOUT" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets top="16.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
          </children>

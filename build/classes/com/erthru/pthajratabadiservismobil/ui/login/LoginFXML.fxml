@@ -32,8 +32,8 @@
                   <Font name="Arial Bold" size="34.0" />
                </font>
             </Label>
-            <TextField fx:id="txEmail" prefHeight="35.0" prefWidth="302.0" promptText="Email" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
-            <PasswordField fx:id="txPassword" prefHeight="35.0" prefWidth="300.0" promptText="Password" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0" />
+            <TextField fx:id="txEmail" layoutY="71.0" onAction="#btnLoginClicked" prefHeight="35.0" prefWidth="302.0" promptText="Email" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="71.0" />
+            <PasswordField fx:id="txPassword" onAction="#btnLoginClicked" prefHeight="35.0" prefWidth="300.0" promptText="Password" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0" />
             <Button fx:id="btnLogin" layoutX="16.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnLoginClicked" style="-fx-background-color: #27ae60;" text="LOGIN" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="174.0" />
          </children>
       </AnchorPane>

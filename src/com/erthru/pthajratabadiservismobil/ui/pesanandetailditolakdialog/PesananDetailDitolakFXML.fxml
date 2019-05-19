@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="219.0" prefWidth="348.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.erthru.pthajratabadiservismobil.ui.pesanandetailditolakdialog.PesananDetailDitolakController">
+   <children>
+      <TextArea fx:id="txAlasan" layoutX="29.0" layoutY="35.0" prefHeight="87.0" prefWidth="217.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="56.0" />
+      <Label layoutX="29.0" layoutY="14.0" text="Alasan pesanan ditolak" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0" />
+      <Button fx:id="btnTolak" layoutX="263.0" layoutY="157.0" mnemonicParsing="false" onAction="#btnTolakClicked" style="-fx-background-color: #c0392b;" text="TOLAK" textFill="WHITE" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="157.0" />
+      <Button fx:id="btnBatal" layoutX="190.0" layoutY="157.0" mnemonicParsing="false" onAction="#btnBatalClicked" style="-fx-background-color: #7f8c8d;" text="BATAL" textFill="WHITE" AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="157.0" />
+   </children>
+</AnchorPane>

@@ -32,5 +32,9 @@ public class ApiEndPoint {
     public static String DITOLAK_BOOKING = "http://localhost/anows/api_pthabgsm/app.php?mod=ditolak_booking";
     public static String LOGIN_ADMIN = "http://localhost/anows/api_pthabgsm/app.php?mod=login_admin";
     public static String ADMIN_HOME_REPORT = "http://localhost/anows/api_pthabgsm/app.php?mod=admin_home_report";
+    public static String BOOKING_DITOLAK = "http://localhost/anows/api_pthabgsm/app.php?mod=booking_ditolak";
+    public static String SET_ALASAN_BOOKING_DITOLAK = "http://localhost/anows/api_pthabgsm/app.php?mod=set_alasan_booking_ditolak";
+    public static String DAFTAR_TAHUN = "http://localhost/anows/api_pthabgsm/app.php?mod=daftar_tahun";
+    public static String LAPORAN = "http://localhost/anows/api_pthabgsm/app.php?mod=laporan";
     
 }
