@@ -6,6 +6,7 @@
 package com.erthru.pthajratabadiservismobil.ui.laporan;
 
 import com.erthru.pthajratabadiservismobil.ui.beranda.BerandaController;
+import com.erthru.pthajratabadiservismobil.ui.laporanprepare.LaporanPrepareController;
 import com.erthru.pthajratabadiservismobil.ui.pengguna.PenggunaController;
 import com.erthru.pthajratabadiservismobil.utils.ApiEndPoint;
 import com.erthru.pthajratabadiservismobil.utils.Loading;
@@ -24,9 +25,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -35,6 +39,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
@@ -120,23 +125,23 @@ public class LaporanController implements Initializable {
         if(!onCari){
             MsgBox.error("Data belum ditentukan");
         }else{
-            Loading loading = new Loading();
-            Platform.runLater(()->{loading.show();});
-            Printer printer = Printer.getDefaultPrinter();
-            if(printer != null){
-                System.out.println(printer.toString());
-                PrinterJob job = PrinterJob.createPrinterJob();
-                if(job != null){
-                    Platform.runLater(()->{loading.dismiss();});
-                    boolean success = job.printPage(pane);
-                    if(success){
-                        job.endJob();
-                    }
-                }
-            }else{
-                Platform.runLater(()->{loading.dismiss();});
-                MsgBox.error("Tidak ada printer yg ter-Install.");
-            }            
+            try{
+            Stage stage = new Stage();
+        
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/laporanprepare/LaporanPrepareFXML.fxml"));
+            Parent root = loader.load();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Preview Cetak");
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            
+            stage.show();
+            
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }         
         }
     }
     
@@ -346,6 +351,13 @@ public class LaporanController implements Initializable {
                         tablePesanan.getItems().addAll(data);
                     });
                     
+                    LaporanPrepareController.TABLE_DATA = data;
+                    LaporanPrepareController.PESANAN_TOTAL = totalPesanan;
+                    LaporanPrepareController.PESANAN_BERJALAN = pesananBerjalan;
+                    LaporanPrepareController.PESANAN_SELESAI = pesananSelesai;
+                    LaporanPrepareController.PESANAN_DIOLAK = pesananDitolak;
+                    LaporanPrepareController.BULAN = comboBulan.getSelectionModel().getSelectedItem().getBulan();
+                    LaporanPrepareController.TAHUN = comboTahun.getSelectionModel().getSelectedItem().toString();
                     onCari = true;
 
                 }else{

@@ -19,7 +19,7 @@
       <ComboBox fx:id="comboTahun" layoutX="190.0" layoutY="90.0" prefWidth="150.0" promptText="Pilih tahun" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="90.0" />
       <Button fx:id="btnCari" layoutX="357.0" layoutY="90.0" mnemonicParsing="false" onAction="#btnCariClicked" prefHeight="27.0" prefWidth="78.0" style="-fx-background-color: #27ae60;" text="CARI" textFill="WHITE" AnchorPane.leftAnchor="357.0" AnchorPane.topAnchor="90.0" />
       <Button fx:id="btnCetak" layoutX="367.0" layoutY="100.0" mnemonicParsing="false" onAction="#btnCetakClicked" prefHeight="27.0" prefWidth="78.0" style="-fx-background-color: #27ae60;" text="CETAK" textFill="WHITE" AnchorPane.leftAnchor="445.0" AnchorPane.topAnchor="90.0" />
-      <AnchorPane layoutX="26.0" layoutY="142.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="132.0">
+      <AnchorPane fx:id="pane" layoutX="26.0" layoutY="142.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="132.0">
          <children>
             <Label fx:id="lbTotalPesanan" layoutX="20.0" layoutY="22.0" text="Total Pesanan: 0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
             <Label fx:id="lbPesananBerjalan" layoutX="10.0" layoutY="32.0" text="Pesanan Berjalan: 0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="32.0" />
