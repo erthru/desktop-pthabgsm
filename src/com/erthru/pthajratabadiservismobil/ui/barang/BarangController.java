@@ -197,7 +197,7 @@ public class BarangController implements Initializable {
     
     private void setComboKategori(){
         
-        ObservableList data = FXCollections.observableArrayList("BODY","GR","SBI","SBE");
+        ObservableList data = FXCollections.observableArrayList("PDS/I","SBI","SBE","TWC","RTJ","GR");
         comboKategori.setItems(data);
         
     }
