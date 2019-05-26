@@ -92,12 +92,13 @@ public class SetSparepartPesananController implements Initializable {
     private PesananDetailController parent1;
     
     public static String BOOKING_ID;
-    
+    public static String BOOKING_JENIS;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setPaging();
         setCustomListener();
+        System.out.println(BOOKING_JENIS);
     }  
     
     @FXML
@@ -338,7 +339,7 @@ public class SetSparepartPesananController implements Initializable {
                 });
                 
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page=1");
+                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS_BY_JENIS+"&page=1&jenis="+BOOKING_JENIS);
 
                 ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
 
@@ -428,7 +429,7 @@ public class SetSparepartPesananController implements Initializable {
                 });
 
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page="+page);
+                HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS_BY_JENIS+"&page="+page+"&jenis="+BOOKING_JENIS);
 
                 ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {
 

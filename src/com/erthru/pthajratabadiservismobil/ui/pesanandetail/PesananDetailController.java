@@ -440,6 +440,8 @@ public class PesananDetailController implements Initializable {
                     String userUpdatedAt = response.getJSONObject("data_booking").getString("user_updated_at");
                     lastStatus = response.getJSONObject("data_booking").getString("last_status");
 
+                    SetSparepartPesananController.BOOKING_JENIS = bookingJenisServis;
+                    
                     Platform.runLater(()->{
 
                         lbInvoice.setText("#"+bookingId);
