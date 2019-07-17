@@ -129,10 +129,11 @@ public class PenggunaController implements Initializable {
 
                     int total = response.getInt("total");
 
-                    paging.setPageCount((total / 10) + 1);
-                    paging.setCurrentPageIndex(0);
-
-                    Platform.runLater(()->{setTableUser(1);});
+                    Platform.runLater(()->{
+                        paging.setPageCount((total / 10) + 1);
+                        paging.setCurrentPageIndex(0);
+                        setTableUser(1);
+                    });
 
                 }else{
                     Platform.runLater(()->{MsgBox.error("Koneksi internet gagal.");});
