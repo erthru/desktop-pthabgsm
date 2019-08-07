@@ -96,6 +96,19 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
+                  <Label text="Rencana Jadwal Servis">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets top="16.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lbJadwalServis" text="01 Jun 2019">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
                   <Label text="Keterangan">
                      <font>
                         <Font name="Arial Bold" size="13.0" />

@@ -111,6 +111,9 @@ public class PesananDetailController implements Initializable {
     @FXML
     private Label lbBottomKet;
     
+    @FXML
+    private Label lbJadwalServis;
+    
     public static String BOOKING_ID;
     private String lastStatus;
     private String bookingBiaya;
@@ -438,6 +441,7 @@ public class PesananDetailController implements Initializable {
                     String userNohp = response.getJSONObject("data_booking").getString("user_no_hp");
                     String userCreatedAt = response.getJSONObject("data_booking").getString("user_created_at");
                     String userUpdatedAt = response.getJSONObject("data_booking").getString("user_updated_at");
+                    String bookingJadwalServis = response.getJSONObject("data_booking").getString("booking_jadwal_servis");
                     lastStatus = response.getJSONObject("data_booking").getString("last_status");
 
                     SetSparepartPesananController.BOOKING_JENIS = bookingJenisServis;
@@ -455,6 +459,7 @@ public class PesananDetailController implements Initializable {
                         lbVincode.setText(bookingVincode);
                         lbKM.setText(bookingKm);
                         lbNoPolisi.setText(bookingNoPolisi);
+                        lbJadwalServis.setText(StringFex.dateMaxTwo(bookingJadwalServis));
 
                         btnSet.setVisible(true);
                         btnTolak.setVisible(true);
