@@ -349,14 +349,14 @@ public class BarangController implements Initializable {
                             } catch (JSONException ex) {
                                 Logger.getLogger(BarangController.class.getName()).log(Level.SEVERE, null, ex);
                             }
-});
+                        });
                     }else{
                         Platform.runLater(()->{try {
                             MsgBox.error(response.getString("pesan"));
                             } catch (JSONException ex) {
                                 Logger.getLogger(BarangController.class.getName()).log(Level.SEVERE, null, ex);
                             }
-});
+                        });
                     }                                        
 
                     reset();
@@ -475,7 +475,7 @@ public class BarangController implements Initializable {
                    
                 });
                 
-                 CloseableHttpClient httpclient = HttpClients.createDefault();
+                CloseableHttpClient httpclient = HttpClients.createDefault();
                 HttpGet get = new HttpGet(ApiEndPoint.DAFTAR_BARANG_SERVIS+"&page=1");
 
                 ResponseHandler<JSONObject> responseHandler = new ResponseHandler<JSONObject>() {

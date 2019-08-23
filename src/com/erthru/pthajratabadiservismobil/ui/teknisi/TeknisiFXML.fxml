@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="568.0" prefWidth="666.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erthru.pthajratabadiservismobil.ui.teknisi.TeknisiController">
+   <children>
+      <Label layoutX="85.0" layoutY="74.0" text="TEKNISI" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
+         <font>
+            <Font name="Arial Bold" size="22.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txNama" layoutX="30.0" layoutY="68.0" prefHeight="27.0" prefWidth="304.0" promptText="Nama" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="78.0" />
+      <TextField fx:id="txEmail" layoutX="26.0" layoutY="119.0" prefHeight="27.0" prefWidth="304.0" promptText="Email" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="119.0" />
+      <PasswordField fx:id="txPassword" layoutX="26.0" layoutY="163.0" prefHeight="27.0" prefWidth="304.0" promptText="Password" stylesheets="@../../utils/TextfieldStyle.css" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="163.0" />
+      <Button fx:id="btnSimpan" layoutX="349.0" layoutY="125.0" mnemonicParsing="false" onAction="#onBtnSimpanClicked" prefHeight="27.0" prefWidth="93.0" style="-fx-background-color: #27ae60;" text="SIMPAN" textFill="WHITE" AnchorPane.leftAnchor="349.0" AnchorPane.topAnchor="125.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnEdit" layoutX="349.0" layoutY="163.0" mnemonicParsing="false" onAction="#onBtnEditClicked" prefHeight="27.0" prefWidth="93.0" style="-fx-background-color: #f39c12;" text="EDIT" textFill="WHITE" AnchorPane.leftAnchor="349.0" AnchorPane.topAnchor="163.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnHapus" layoutX="454.0" layoutY="125.0" mnemonicParsing="false" onAction="#onBtnHapusClicked" prefHeight="27.0" prefWidth="93.0" style="-fx-background-color: #c0392b;" text="HAPUS" textFill="WHITE" AnchorPane.leftAnchor="454.0" AnchorPane.topAnchor="125.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnRefresh" layoutX="454.0" layoutY="163.0" mnemonicParsing="false" onAction="#onBtnRefreshClicked" prefHeight="27.0" prefWidth="93.0" style="-fx-background-color: #3498db;" text="REFRESH" textFill="WHITE" AnchorPane.leftAnchor="454.0" AnchorPane.topAnchor="163.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Pagination fx:id="pageTeknisi" layoutX="223.0" layoutY="467.0" prefHeight="53.0" prefWidth="200.0" stylesheets="@../../utils/Pagination.css" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" />
+      <TableView fx:id="tableTeknisi" layoutX="26.0" layoutY="212.0" onMouseClicked="#onTableTeknisiClicked" prefHeight="253.0" prefWidth="614.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../../utils/TableStyle.css" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="212.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+</AnchorPane>

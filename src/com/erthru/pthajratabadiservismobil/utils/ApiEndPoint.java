@@ -37,5 +37,9 @@ public class ApiEndPoint {
     public static String SET_ALASAN_BOOKING_DITOLAK = "https://erthru.pro/pthabgsm/App.php?mod=set_alasan_booking_ditolak";
     public static String DAFTAR_TAHUN = "https://erthru.pro/pthabgsm/App.php?mod=daftar_tahun";
     public static String LAPORAN = "https://erthru.pro/pthabgsm/App.php?mod=laporan";
+    public static String DAFTAR_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=list_teknisi";
+    public static String ADD_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=add_teknisi";
+    public static String UPDATE_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=update_teknisi";
+    public static String DELETE_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=delete_teknisi";
     
 }
