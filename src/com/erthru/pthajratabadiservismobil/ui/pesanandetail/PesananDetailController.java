@@ -114,6 +114,9 @@ public class PesananDetailController implements Initializable {
     @FXML
     private Label lbJadwalServis;
     
+    @FXML
+    private Label lbTeknisi;
+    
     public static String BOOKING_ID;
     private String lastStatus;
     private String bookingBiaya;
@@ -442,10 +445,11 @@ public class PesananDetailController implements Initializable {
                     String userCreatedAt = response.getJSONObject("data_booking").getString("user_created_at");
                     String userUpdatedAt = response.getJSONObject("data_booking").getString("user_updated_at");
                     String bookingJadwalServis = response.getJSONObject("data_booking").getString("booking_jadwal_servis");
-                    lastStatus = response.getJSONObject("data_booking").getString("last_status");
-
-                    SetSparepartPesananController.BOOKING_JENIS = bookingJenisServis;
+                    lastStatus = response.getJSONObject("data_booking").getString("last_status");                    
+                    String teknisi = response.getJSONObject("data_booking").get("teknisi_nama").toString().equals("null") ? "-" : response.getJSONObject("data_booking").getString("teknisi_nama");
                     
+                    SetSparepartPesananController.BOOKING_JENIS = bookingJenisServis;
+                                        
                     Platform.runLater(()->{
 
                         lbInvoice.setText("#"+bookingId);
@@ -460,6 +464,7 @@ public class PesananDetailController implements Initializable {
                         lbKM.setText(bookingKm);
                         lbNoPolisi.setText(bookingNoPolisi);
                         lbJadwalServis.setText(StringFex.dateMaxTwo(bookingJadwalServis));
+                        lbTeknisi.setText(teknisi);
 
                         btnSet.setVisible(true);
                         btnTolak.setVisible(true);
