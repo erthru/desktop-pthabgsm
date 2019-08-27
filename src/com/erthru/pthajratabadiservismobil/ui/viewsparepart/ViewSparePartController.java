@@ -81,15 +81,16 @@ public class ViewSparePartController implements Initializable {
         
         setTableItem();
         
+        btnSet.setVisible(false);
+        
         if(LAST_STATUS.equals("BELUM DIPROSES")){
 
         }else if(LAST_STATUS.equals("DITERIMA")){
              
         }else if(LAST_STATUS.equals("PEMILIHAN PART")){
-            btnSet.setVisible(false);
             lbDesc.setText("* Menunggu pengguna untuk konfirmasi atau perubahan item/sparepart servis");
         }else if(LAST_STATUS.equals("MENUNGGU PERSETUJUAN")){
-            lbDesc.setText("* Pengguna telah menentukan sparepart yang ingin digunakan.");
+            lbDesc.setText("* Pengguna telah menentukan sparepart yang ingin digunakan. Menunggu konfirmasi dari pihak teknisi.");
             btnSet.setText("TERIMA SPAREPART YANG DIPILIH");
         }else if(LAST_STATUS.equals("DALAM PENGERJAAN")){
             lbDesc.setText("* Dalam pengerjaan");

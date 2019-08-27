@@ -473,23 +473,27 @@ public class PesananDetailController implements Initializable {
                             btnSet.setText("TERIMA PESANAN INI");
                             lbBottomKet.setText("Pesanan ini belum diproses");
                         }else if(lastStatus.equals("DITERIMA")){
-                            btnSet.setText("TENTUKAN SPAREPART SERVIS");
-                            lbBottomKet.setText("Pesanan ini telah diterima. Tekan tombol di atas untuk menentukan sparepart yang akan diganti/servis.");
+                            //btnSet.setText("TENTUKAN SPAREPART SERVIS");
+                            btnSet.setVisible(false);
+                            btnTolak.setVisible(false);
+                            lbBottomKet.setText("Pesanan ini telah diterima. Menunggu pihak teknisi untuk menentukan sparepart yang akan digunakan / servis.");
                         }else if(lastStatus.equals("PEMILIHAN PART")){
                             btnSet.setText("LIHAT DAFTAR SPAREPART YANG DIPILIH");
+                            btnTolak.setDisable(true);
                             lbBottomKet.setText("Menunggu persetujuan dari pengguna untuk pemilihan part yang telah ditentukan");
                         }else if(lastStatus.equals("MENUNGGU PERSETUJUAN")){
                             btnSet.setText("LIHAT SPAREPART YANG DIPILIH");
+                            btnTolak.setDisable(true);
                             lbBottomKet.setText("Pengguna telah menentukan sparepart yang ingin digunakan.");
                         }else if(lastStatus.equals("DALAM PENGERJAAN")){
-                            btnSet.setText("SET PESANAN INI TELAH SELESAI");
-                            lbBottomKet.setText("Tekan tombol di atas jika pesanan ini telah selesai.");
+                            btnSet.setText("LIHAT SPAREPART YANG DIPILIH");
+                            btnTolak.setDisable(true);
+                            lbBottomKet.setText("Pesanan ini dalam pengerjaan.");
                         }else if(lastStatus.equals("SELESAI")){
                             btnSet.setText("LIHAT SPAREPART YANG DIPILIH");
                             lbBottomKet.setText("Pesanan ini telah selesai");
                             btnTolak.setDisable(true);
                         }else if(lastStatus.equals("DITOLAK")){
-                            btnSet.setText("LIHAT SPAREPART YANG DIPILIH");
                             lbBottomKet.setText("Memuat alasan... ");
                             btnSet.setVisible(false);
                             btnTolak.setVisible(false);
