@@ -44,7 +44,7 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <Label text="Model Kendaraan">
+                  <Label text="Tipe Kendaraan">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
