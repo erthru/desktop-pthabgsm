@@ -24,7 +24,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="btnBarang" mnemonicParsing="false" onAction="#btnBarangClicked" prefHeight="32.0" prefWidth="159.0" style="-fx-background-color: #c0392b;" text="BARANG" textFill="WHITE">
+                  <Button fx:id="btnBarang" mnemonicParsing="false" onAction="#btnBarangClicked" prefHeight="32.0" prefWidth="159.0" style="-fx-background-color: #c0392b;" text="SPAREPART" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="16.0" />
                      </VBox.margin>
