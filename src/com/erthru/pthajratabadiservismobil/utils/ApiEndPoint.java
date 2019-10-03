@@ -41,5 +41,6 @@ public class ApiEndPoint {
     public static String ADD_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=add_teknisi";
     public static String UPDATE_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=update_teknisi";
     public static String DELETE_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=delete_teknisi";
+    public static String RIWAYAT_BOOKING_ALL = "https://erthru.pro/pthabgsm/App.php?mod=riwayat_booking_all";
     
 }

@@ -56,6 +56,9 @@ public class MainController implements Initializable {
     @FXML
     private Button btnTeknisi;
     
+    @FXML
+    private Button btnRiwayatPesanan;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -118,6 +121,25 @@ public class MainController implements Initializable {
         
         try {
             Node node = (Node)FXMLLoader.load(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/pesanan/PesananFXML.fxml"));
+            
+            AnchorPane.setBottomAnchor(node, Double.parseDouble("0"));
+            AnchorPane.setTopAnchor(node, Double.parseDouble("0"));
+            AnchorPane.setLeftAnchor(node, Double.parseDouble("0"));
+            AnchorPane.setRightAnchor(node, Double.parseDouble("0"));
+            
+            sidePane.getChildren().clear();
+            sidePane.getChildren().setAll(node);
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    @FXML
+    private void btnRiwayatPesananClicked(){
+        
+        try {
+            Node node = (Node)FXMLLoader.load(getClass().getResource("/com/erthru/pthajratabadiservismobil/ui/riwayatpesanan/RiwayatPesananFXML.fxml"));
             
             AnchorPane.setBottomAnchor(node, Double.parseDouble("0"));
             AnchorPane.setTopAnchor(node, Double.parseDouble("0"));

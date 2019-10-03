@@ -40,6 +40,14 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
+                  <Button fx:id="btnRiwayatPesanan" mnemonicParsing="false" onAction="#btnRiwayatPesananClicked" prefHeight="32.0" prefWidth="159.0" style="-fx-background-color: #c0392b;" text="RIWAYAT PESANAN" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets top="16.0" />
+                     </VBox.margin>
+                  </Button>
                   <Button fx:id="btnPengguna" mnemonicParsing="false" onAction="#btnPenggunaClicked" prefHeight="32.0" prefWidth="159.0" style="-fx-background-color: #c0392b;" text="PENGGUNA" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="16.0" />

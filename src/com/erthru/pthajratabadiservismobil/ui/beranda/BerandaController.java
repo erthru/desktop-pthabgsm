@@ -241,7 +241,7 @@ public class BerandaController implements Initializable {
                 if(response == null){
                    Platform.runLater(()->{ MsgBox.error("Koneksi internet gagal.");});
                 }else{
-                    int pesanan = response.getInt("total");
+                    int pesanan = response.getInt("total_whaving");
                     Platform.runLater(()->{lbTotalPesanan.setText(""+pesanan);});
                 }
                 
