@@ -43,6 +43,11 @@ public class PTHajratAbadiServisMobil extends Application {
         
     }
 
+    @Override
+    public void stop(){
+        System.exit(0);
+    }
+    
     /**
      * @param args the command line arguments
      */

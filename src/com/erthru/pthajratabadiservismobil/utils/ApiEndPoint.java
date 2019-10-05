@@ -42,5 +42,7 @@ public class ApiEndPoint {
     public static String UPDATE_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=update_teknisi";
     public static String DELETE_TEKNISI = "https://erthru.pro/pthabgsm/App.php?mod=delete_teknisi";
     public static String RIWAYAT_BOOKING_ALL = "https://erthru.pro/pthabgsm/App.php?mod=riwayat_booking_all";
+    public static String DAFTAR_NOTIFIKASI_ADMIN = "https://erthru.pro/pthabgsm/App.php?mod=daftar_notifikasi_admin";
+    public static String BACA_NOTIFIKASI_ADMIN = "https://erthru.pro/pthabgsm/App.php?mod=baca_notifikasi_admin";
     
 }

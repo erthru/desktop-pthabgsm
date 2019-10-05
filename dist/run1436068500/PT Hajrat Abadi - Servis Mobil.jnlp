@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="PT Hajrat Abadi - Servis Mobil.jnlp">
+  <information>
+    <title>PT Hajrat Abadi - Servis Mobil</title>
+    <vendor>supriantodjamalu</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib/commons-codec-1.11.jar" size="335042" download="eager" />
+    <jar href="lib/commons-logging-1.2.jar" size="61829" download="eager" />
+    <jar href="lib/httpclient-4.5.8.jar" size="772386" download="eager" />
+    <jar href="lib/httpclient-cache-4.5.8.jar" size="161842" download="eager" />
+    <jar href="lib/httpclient-osgi-4.5.8.jar" size="1360615" download="eager" />
+    <jar href="lib/httpclient-win-4.5.8.jar" size="17847" download="eager" />
+    <jar href="lib/httpcore-4.4.11.jar" size="326874" download="eager" />
+    <jar href="lib/httpmime-4.5.8.jar" size="41787" download="eager" />
+    <jar href="lib/java-json.jar" size="84697" download="eager" />
+    <jar href="lib/sqlite-jdbc-3.27.2.1.jar" size="6012107" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="PT Hajrat Abadi - Servis Mobil" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="com.erthru.pthajratabadiservismobil.utils.PTHajratAbadiServisMobil"  name="PT Hajrat Abadi - Servis Mobil" />
+  <update check="always"/>
+</jnlp>
